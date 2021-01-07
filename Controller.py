@@ -1,6 +1,7 @@
 from DataManagement import *
 import random
 
+
 class Controller:
     def __init__(self):
         self.data_access = DataManagement()
@@ -10,10 +11,11 @@ class Controller:
         print("New Participant", participant_id, first_name, last_name, gender, age)
         self.data_access.add_new_participant(participant_id, first_name, last_name, gender, age)
 
-
+    # Save text's results
     def save_text_results(self, current_text_id, participant_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times):
         print("Saved Results", current_text_id, participant_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
         self.data_access.add_participant_records(participant_id, current_text_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
+
     # Get 4 texts
     # questions = 3 questions
     # answers = 12 answers
@@ -21,6 +23,7 @@ class Controller:
     def get_texts(self):
         pass
 
+    # Getting 4 demo texts
     def get_demo_texts(self):
 
         texts = []
