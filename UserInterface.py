@@ -12,7 +12,6 @@ TITLE_FONT_COLOR = 'DarkBlue'
 BACKGROUND_COLOR = "azure2"
 
 controller = Controller()
-
 # Texts
 texts = []
 current_text_id = ""
@@ -387,7 +386,7 @@ class TextReadingInstructions(tk.Frame):
     def start_reading_text(self):
         global timer_text_reading
         self.master.switch_frame(TextSummarizationInstructions)
-        timer_text_reading = start_eye_tracking(current_text)
+        timer_text_reading = start_eye_tracking(current_text, participant_id, current_text_id)
 
 class TextSummarizationInstructions(tk.Frame):
     def __init__(self, master):
@@ -421,45 +420,13 @@ class TextSummarizationFrame(tk.Frame):
         next_btn = new_button(self.inner_frame, btn_text="Next", btn_command=self.next)
         next_btn.grid(row=3, column=0, pady=20)
 
-        # Timer
-        tk.Label(self.inner_frame, text="Time Left:", bg=BACKGROUND_COLOR).grid(row=3, column=1, pady=20)
-        self.timer_label = tk.Label(self.inner_frame, text="", bg=BACKGROUND_COLOR)
-        self.timer_label.grid(row=3, column=2)
-
         self.inner_frame.pack(side="bottom")
-
-        self.update_timer()
 
     def next(self):
         global text_summary, timer_text_summarization
         text_summary = self.user_text_summary.get("1.0", 'end-1c')
         timer_text_summarization = round(time.time() - self.start_time, 1)
         self.master.switch_frame(HighlightingInstructions)
-
-
-
-
-    def update_timer(self):
-        time_passed = time.time() - self.start_time
-        time_left = SUMMARIZATION_TIMER - int(time_passed)
-
-        # More than a minute
-        if time_left > 60:
-            time_left_minutes = str(int(time_left / 60))
-            time_left_seconds = int(time_left % 60)
-
-            # Add zero if less than 10 seconds (visualization)
-            if time_left_seconds < 10:
-                time_left_seconds = "0" + str(time_left_seconds)
-
-            self.timer_label.configure(text=time_left_minutes+":"+str(time_left_seconds))
-
-        # Less than a minute
-        else:
-            self.timer_label.configure(text=time_left)
-
-        # Updating every second (1000 ms)
-        self.after(1000, self.update_timer)
 
 
 class HighlightingInstructions(tk.Frame):
@@ -487,31 +454,66 @@ class HighlightingFrame(tk.Frame):
 
         sentences = current_text.split(".")
 
+        self.buttons_mapping = {}
+
         self.buttons = []
-        idx = 0
         self.inner_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
+        i = 0
+
+        self.buttons_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
 
         for sentence in sentences:
             sentence += "."
-            sen_btn = tk.Button(self.inner_frame, text=sentence, bg=BACKGROUND_COLOR)
-            sen_btn.configure(command=lambda btn=sen_btn: self.change_color(btn))
-            sen_btn.config(highlightthickness=0, borderwidth=0)
-            sen_btn.grid(row=idx, column=0, sticky="w", pady=10)
-            idx += 1
-            self.buttons.append(sen_btn)
 
+            words = sentence.split(" ")
+
+            for word in words:
+                sen_btn = tk.Button(self.buttons_frame, text=word, bg=BACKGROUND_COLOR)
+                sen_btn.configure(command=lambda btn=sen_btn: self.change_color(btn))
+                sen_btn.config(highlightthickness=0, borderwidth=0)
+                self.buttons.append(sen_btn)
+                self.buttons_mapping[sen_btn] = i
+            i += 1
+
+        frame_width = self.winfo_screenwidth() * 0.5
+        current_width = 0
+        i = 0
+        j = 0
+
+        tmp_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
+
+        for btn in self.buttons:
+            btn.update_idletasks()
+            btn_width = btn.winfo_reqwidth()
+
+
+            btn_replicate = tk.Button(tmp_frame, text=btn["text"], bg=BACKGROUND_COLOR)
+            btn_replicate.configure(command=lambda btn=btn_replicate: self.change_color(btn))
+            btn_replicate.config(highlightthickness=0, borderwidth=0)
+
+            cl = self.buttons_mapping[btn]
+            del self.buttons_mapping[btn]
+            self.buttons_mapping[btn_replicate] = cl
+
+            if current_width + btn_width < frame_width:
+                j += 1
+                btn_replicate.pack(side="left")
+
+            else:
+                tmp_frame.pack()
+                tmp_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
+                i += 1
+                j = 0
+                current_width = 0
+
+            current_width += btn_width
 
         # Next button
         next_btn = new_button(self.inner_frame, btn_text="Next", btn_command=self.next)
-        next_btn.grid(row=idx+1, column=0, pady=20)
-
-        # Timer
-        tk.Label(self.inner_frame, text="Time Left:", bg=BACKGROUND_COLOR).grid(row=idx+1, column=1, pady=20)
-        self.timer_label = tk.Label(self.inner_frame, text="", bg=BACKGROUND_COLOR)
-        self.timer_label.grid(row=idx+1, column=2)
-
+        next_btn.grid(row=i+1, column=0, pady=20)
+        self.buttons_frame.pack(side="top")
         self.inner_frame.pack(side="bottom")
-        self.update_timer()
+
 
     def next(self):
         global timer_highlighting
@@ -523,33 +525,21 @@ class HighlightingFrame(tk.Frame):
 
         self.master.switch_frame(RankingInstructions)
 
-    def change_color(self, lbl):
-        if lbl["bg"] == BACKGROUND_COLOR:
-            lbl.config(bg=HIGHLIGHTED_COLOR)
-        else:
-            lbl.config(bg=BACKGROUND_COLOR)
+    def change_color(self, btn):
 
-    def update_timer(self):
-        time_passed = time.time() - self.start_time
-        time_left = HIGHLIGHTING_TIMER - int(time_passed)
+        clust = self.buttons_mapping[btn]
 
-        # More than a minute
-        if time_left > 60:
-            time_left_minutes = str(int(time_left / 60))
-            time_left_seconds = int(time_left % 60)
+        buttons_to_change = []
 
-            # Add zero if less than 10 seconds (visualization)
-            if time_left_seconds < 10:
-                time_left_seconds = "0" + str(time_left_seconds)
+        for key in self.buttons_mapping:
+            if clust == self.buttons_mapping[key]:
+                buttons_to_change.append(key)
 
-            self.timer_label.configure(text=time_left_minutes+":"+str(time_left_seconds))
-
-        # Less than a minute
-        else:
-            self.timer_label.configure(text=time_left)
-
-        # Updating every second (1000 ms)
-        self.after(1000, self.update_timer)
+        for button in buttons_to_change:
+            if button["bg"] == BACKGROUND_COLOR:
+                button.config(bg=HIGHLIGHTED_COLOR)
+            else:
+                button.config(bg=BACKGROUND_COLOR)
 
 
 class RankingInstructions(tk.Frame):
@@ -610,15 +600,8 @@ class RankingFrame(tk.Frame):
         next_btn = new_button(self.inner_frame, btn_text="Next", btn_command=self.next)
         next_btn.grid(row=len(highlighted_sentences)+3, column=0, pady=20)
 
-
-        # Timer
-        tk.Label(self.inner_frame, text="Time Left:", bg=BACKGROUND_COLOR).grid(row=len(highlighted_sentences)+3, column=1, pady=20)
-        self.timer_label = tk.Label(self.inner_frame, text="", bg=BACKGROUND_COLOR)
-        self.timer_label.grid(row=len(highlighted_sentences)+3, column=2)
-
         self.inner_frame.pack(side="bottom")
 
-        self.update_timer()
 
     def next(self):
         global timer_ranking
@@ -638,28 +621,6 @@ class RankingFrame(tk.Frame):
             for var in self.string_vars:
                 highlighted_sentences_scores.append(var.get())
             self.master.switch_frame(QuestionsInstructions)
-
-    def update_timer(self):
-        time_passed = time.time() - self.start_time
-        time_left = RANKING_TIMER - int(time_passed)
-
-        # More than a minute
-        if time_left > 60:
-            time_left_minutes = str(int(time_left / 60))
-            time_left_seconds = int(time_left % 60)
-
-            # Add zero if less than 10 seconds (visualization)
-            if time_left_seconds < 10:
-                time_left_seconds = "0" + str(time_left_seconds)
-
-            self.timer_label.configure(text=time_left_minutes+":"+str(time_left_seconds))
-
-        # Less than a minute
-        else:
-            self.timer_label.configure(text=time_left)
-
-        # Updating every second (1000 ms)
-        self.after(1000, self.update_timer)
 
 class QuestionsInstructions(tk.Frame):
     def __init__(self, master):
@@ -725,14 +686,8 @@ class QuestionsFrame(tk.Frame):
         # Next button
         new_button(self.inner_frame, "Next", self.next).grid(row=7, column=1, pady=50)
 
-        # Timer
-        tk.Label(self.inner_frame, text="Time Left:", bg=BACKGROUND_COLOR).grid(row=7, column=2, pady=20)
-        self.timer_label = tk.Label(self.inner_frame, text="", bg=BACKGROUND_COLOR)
-        self.timer_label.grid(row=7, column=3)
-
         self.inner_frame.pack(side="top")
 
-        self.update_timer()
 
     def next(self):
 
@@ -785,29 +740,6 @@ class QuestionsFrame(tk.Frame):
 
         self.title["text"] = "Question " + str(self.question_num)
 
-    def update_timer(self):
-        time_passed = time.time() - self.start_time
-        time_left = QUESTIONS_TIMER - int(time_passed)
-
-        # More than a minute
-        if time_left > 60:
-            time_left_minutes = str(int(time_left / 60))
-            time_left_seconds = int(time_left % 60)
-
-            # Add zero if less than 10 seconds (visualization)
-            if time_left_seconds < 10:
-                time_left_seconds = "0" + str(time_left_seconds)
-
-            self.timer_label.configure(text=time_left_minutes+":"+str(time_left_seconds))
-
-        # Less than a minute
-        else:
-            self.timer_label.configure(text=time_left)
-
-        # Updating every second (1000 ms)
-        self.after(1000, self.update_timer)
-
-
 class NextTextFrame(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -818,7 +750,6 @@ class NextTextFrame(tk.Frame):
         init_next_text()
 
         new_button(self, "Click to continue to the next text", lambda: self.master.switch_frame(TextReadingInstructions)).pack(pady=100)
-
 
 
 class EndFrame(tk.Frame):

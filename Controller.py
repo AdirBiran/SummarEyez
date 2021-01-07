@@ -8,11 +8,12 @@ class Controller:
     # Add new participant to database
     def add_new_participant(self, participant_id, first_name, last_name, gender, age):
         print("New Participant", participant_id, first_name, last_name, gender, age)
+        self.data_access.add_new_participant(participant_id, first_name, last_name, gender, age)
 
 
     def save_text_results(self, current_text_id, participant_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times):
         print("Saved Results", current_text_id, participant_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
-
+        self.data_access.add_participant_records(participant_id, current_text_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
     # Get 4 texts
     # questions = 3 questions
     # answers = 12 answers

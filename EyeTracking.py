@@ -2,18 +2,16 @@ import tkinter as tk
 import time
 import pandas as pd
 import pyautogui
-
+from Settings import *
 
 class Create_text(tk.Tk):
-    def __init__(self, user_name, text, text_name, user_gender, user_age, eye_tracker=False, see_rectangle=True
+    def __init__(self, participant_id, text, text_id, eye_tracker=False, see_rectangle=True
                  , points=True, verbose=True):
         super().__init__()
         self.start_time = time.time()
         self.config(cursor='circle red')
-        self.user_name = user_name
-        self.text_name = text_name
-        self.user_gender = user_gender
-        self.user_age = user_age
+        self.participant_id = participant_id
+        self.text_id = text_id
         self.text = text
         self.see_rectangle = see_rectangle
         self.points = points
@@ -170,14 +168,11 @@ class Create_text(tk.Tk):
                                             'duration_fixation', 'total_duration_fixation'])
         self.output['count_letters'] = self.output['word'].apply(lambda x: len(x))
         self.output['count_fixation_normalized'] = self.output['total_duration_fixation'] / self.output['count_letters']
-        self.output['user_name'] = self.user_name
-        self.output['text'] = self.text_name
         self.output['fixation_order'] = self.output['fixation_order'].apply(lambda x: list(set(x)))
-        self.output['Age'] = self.user_age
-        self.output['Gender'] = self.user_gender
-        self.output['Time'] = self.read_time
+
         if save == True:
-            self.output.to_csv('words_results/fixations_{}_{}.csv'.format(self.user_name, self.text_name), index=False)
+            path = os.path.join(RESULTS_WORDS_PATH, "{}_{}.csv")
+            self.output.to_csv(path.format(self.participant_id, self.text_id), index=False)
 
     def get_output(self, save):  # create dataframe from bbox_info
         self.output = pd.DataFrame([(a, b[0], b[3], b[4], b[2]) for a, b in self.bbox_info.items()],
@@ -185,25 +180,17 @@ class Create_text(tk.Tk):
                                             'total_duration_fixation'])
         self.output['count_words'] = self.output['sentenсe'].apply(lambda x: len(x.split(' ')))
         self.output['count_fixation_normalized'] = self.output['total_duration_fixation'] / self.output['count_words']
-        self.output['user_name'] = self.user_name
-        self.output['text'] = self.text_name
         self.output['fixation_order'] = self.output['fixation_order'].apply(lambda x: list(set(x)))
-        self.output['Age'] = self.user_age
-        self.output['Gender'] = self.user_gender
-        self.output['Time'] = self.read_time
+
         if save == True:
-            self.output.to_csv('results/fixations_{}_{}.csv'.format(self.user_name, self.text_name), index=False)
+            path = os.path.join(RESULTS_SENTENCES_PATH, "{}_{}.csv")
+            self.output.to_csv(path.format(self.participant_id, self.text_id), index=False)
             # display(self.output)
 
-def start_eye_tracking(text):
-    user_name = "aaa"
-    text_name = "Test"
-    user_gender = "Male"
-    user_age = 18
-    user_points = True
+def start_eye_tracking(text, participant_id, current_text_id):
 
-    experiment_screen = Create_text(user_name, text, text_name, user_gender,
-                                    user_age, points=user_points, eye_tracker=False, verbose=True, see_rectangle=True)
+    experiment_screen = Create_text(participant_id, text, current_text_id,
+                                    points=True, eye_tracker=False, verbose=True, see_rectangle=True)
     for i in range(150):  # need to change to specific time or exit button
         x = pyautogui.position().x
         y = pyautogui.position().y
