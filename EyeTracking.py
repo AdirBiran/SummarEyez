@@ -9,7 +9,7 @@ class Create_text(tk.Tk):
     def __init__(self, participant_id, text, text_id, eye_tracker=False, see_rectangle=True
                  , points=True, verbose=True):
         super().__init__()
-        self.text_size = 16
+        self.text_size = 17
         self.space_size = 2
         self.start_time = time.time()
         self.config(cursor='circle red')

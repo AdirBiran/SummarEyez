@@ -28,7 +28,9 @@ class Controller:
 
         """ files for 15 inch screen"""
         file_14 = 'file14'  # 815 words
+        file_15 = 'file15'  # 760 words
         file_16 = 'file16'  # 688 words
+        file_17 = 'file17'  # 582 words
         file_18 = 'file18'  # 523 words
 
 
@@ -37,7 +39,7 @@ class Controller:
         for i in range(1, 5):
 
             text_id = random.randint(0, 100)
-            text = (open('Texts/{}.txt'.format(file_16), 'r')).read()
+            text = (open('Texts/{}.txt'.format(file_17), 'r')).read()
 
             q1 = "What is...............................?"
             q2 = "Where is...............................?"
