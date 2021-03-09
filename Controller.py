@@ -26,13 +26,18 @@ class Controller:
     # Getting 4 demo texts
     def get_demo_texts(self):
 
+        """ files for 15 inch screen"""
+        file_14 = 'file14'  # 815 words
+        file_16 = 'file16'  # 688 words
+        file_18 = 'file18'  # 523 words
+
+
         texts = []
 
         for i in range(1, 5):
 
             text_id = random.randint(0, 100)
-
-            text = " There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
+            text = (open('Texts/{}.txt'.format(file_16), 'r')).read()
 
             q1 = "What is...............................?"
             q2 = "Where is...............................?"
