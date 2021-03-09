@@ -9,6 +9,8 @@ class Create_text(tk.Tk):
     def __init__(self, participant_id, text, text_id, eye_tracker=False, see_rectangle=True
                  , points=True, verbose=True):
         super().__init__()
+        self.text_size = 17
+        self.space_size = 2
         self.start_time = time.time()
         self.config(cursor='circle red')
         self.participant_id = participant_id
@@ -21,7 +23,7 @@ class Create_text(tk.Tk):
         self.width = self.winfo_screenwidth()  # get display width
         self.height = self.winfo_screenheight()  # get display height
         self.attributes('-fullscreen', True)
-        self.font = ("helvetica", 20)  # font
+        self.font = ("helvetica", self.text_size)  # font
         self.canvas_background = "white"  # background color
         self.canvas = tk.Canvas(self, bg=self.canvas_background, width=self.width, height=self.height)
         self.canvas.pack()  # necessarily
@@ -71,7 +73,7 @@ class Create_text(tk.Tk):
                     self.start_position_x += bbox[2] - bbox[0]
                 else:
                     self.start_position_x = 40
-                    self.start_position_y += 40
+                    self.start_position_y += self.space_size * self.text_size
                 position = [x_left, x_right, y_up, y_down]
                 positions.append(position)
                 self.word_bbox_info[tuple(position)] = [word, 0, [], {}, index_word]
@@ -191,7 +193,7 @@ class Create_text(tk.Tk):
 def start_eye_tracking(text, participant_id, current_text_id):
 
     experiment_screen = Create_text(participant_id, text, current_text_id,
-                                    points=True, eye_tracker=False, verbose=True, see_rectangle=True)
+                                    points=True, eye_tracker=False, verbose=True, see_rectangle=False)
     for i in range(150):  # need to change to specific time or exit button
         x = pyautogui.position().x
         y = pyautogui.position().y
