@@ -33,13 +33,29 @@ class Controller:
         file_17 = 'file17'  # 582 words
         file_18 = 'file18'  # 523 words
 
+        file_name = "d103g_LA062290-0169"
 
         texts = []
 
         for i in range(1, 5):
 
             text_id = random.randint(0, 100)
-            text = (open('Texts/{}.txt'.format(file_17), 'r')).read()
+            text = (open('Texts/{}.txt'.format(file_name), 'r')).read()
+
+            split = text.split(" ")
+            fixed_text = []
+            for sp in split:
+                if len(sp) == 0:
+                    pass
+                elif "\n" in sp or "<P>" in sp or "</P>" in sp:
+                    fixed_text.append(sp.replace("\n", " ").replace("<P>", "").replace("</P>", ""))
+                else:
+                    fixed_text.append(sp)
+
+            text = ' '.join(fixed_text)
+
+            with open('Texts/{}_fixed.txt'.format(file_name), 'w') as f:
+                f.write(text)
 
             q1 = "What is...............................?"
             q2 = "Where is...............................?"

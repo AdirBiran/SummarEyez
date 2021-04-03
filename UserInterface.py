@@ -255,10 +255,10 @@ class NewParticipantFrame(tk.Frame):
         self.gender_var.set("Select")
 
         # Just for tests
-        self.id_var.set("4")
-        self.first_name_var.set("aaa")
-        self.last_name_var.set("bbb")
-        self.age_var.set("5")
+        self.id_var.set("123456789")
+        self.first_name_var.set("Demo")
+        self.last_name_var.set("Demo")
+        self.age_var.set("30")
         self.gender_var.set("Male")
 
         # Sizes
@@ -671,8 +671,8 @@ class RankingFrame(tk.Frame):
             self.error_vars.append(error)
 
         # Just for tests
-        for var in self.string_vars:
-            var.set("2")
+        #for var in self.string_vars:
+        #    var.set("2")
 
         # Next button
         next_btn = new_button(self.inner_frame, btn_text="Next", btn_command=self.next)
@@ -753,7 +753,7 @@ class QuestionsFrame(tk.Frame):
         self.q_var = tk.StringVar(self.inner_frame, 0)
 
         # Just for tests
-        self.q_var.set(2)
+        #self.q_var.set(2)
 
         # Q Answers
         for i in range(4):
@@ -830,7 +830,7 @@ class QuestionsFrame(tk.Frame):
         self.question_lbl["text"] = "Question:   " + current_text_questions[self.question_num - 1]
 
         # Just for tests
-        self.q_var.set("2")
+        #self.q_var.set("2")
 
         for counter in range(len(self.radio_buttons)):
             self.radio_buttons[counter]["text"] = current_text_answers[counter]
