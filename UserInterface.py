@@ -83,7 +83,7 @@ def clear_user_results():
     timer_q2 = 0
     timer_q3 = 0
 
-# Save user results
+# Save user resultsF
 def save_results():
     if not demo:
         times = [timer_text_reading, timer_text_summarization, timer_highlighting, timer_ranking, timer_q1, timer_q2, timer_q3]
@@ -658,7 +658,7 @@ class RankingFrame(tk.Frame):
         # Sentences
         for i in range(len(highlighted_sentences)):
             self.st_var = tk.StringVar(self.inner_frame, 0)
-            tk.Message(self.inner_frame, text=highlighted_sentences[i], bg=BACKGROUND_COLOR, justify="left", width=600, font=("David", 16)).grid(row=i+2, column=0, pady=5)
+            tk.Message(self.inner_frame, text=highlighted_sentences[i], bg=BACKGROUND_COLOR, justify="left", width=600, font=("David", 13)).grid(row=i+2, column=0, pady=5)
             error = tk.Label(self.inner_frame, text="", fg="red", bg=BACKGROUND_COLOR)
             error.grid(row=i+2, column=1, pady=20)
 

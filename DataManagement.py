@@ -58,6 +58,15 @@ class DataManagement:
 
     # Adds new participant
     def add_new_participant(self, *args):
+        if not os.path.exists(os.path.join(RESULTS_MAIN_PATH, args[0])):
+            os.mkdir(os.path.join(RESULTS_MAIN_PATH, args[0]))
+
+        if not os.path.exists(os.path.join(RESULTS_MAIN_PATH, args[0], "Words")):
+            os.mkdir(os.path.join(RESULTS_MAIN_PATH, args[0], "Words"))
+
+        if not os.path.exists(os.path.join(RESULTS_MAIN_PATH, args[0], "Sentences")):
+            os.mkdir(os.path.join(RESULTS_MAIN_PATH, args[0], "Sentences"))
+
         with open(PARTICIPANTS_FILE, 'a', newline='') as fd:
             writer = csv.writer(fd)
             writer.writerow(list(args))

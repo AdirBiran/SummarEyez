@@ -3,10 +3,10 @@ import time
 import pandas as pd
 import pyautogui
 from Settings import *
-
+import numpy as np
 
 class Create_text(tk.Tk):
-    def __init__(self, participant_id, text, text_id, eye_tracker=False, see_rectangle=True
+    def __init__(self, participant_id, text, text_id, eye_tracker=True, see_rectangle=True
                  , points=True, verbose=True):
         super().__init__()
         self.text_size = 13
@@ -38,6 +38,7 @@ class Create_text(tk.Tk):
         self.word_previous_fixation = None
         self.word_fixation_number = 0
         self.print_text()
+        self.keep_tracking = True
 
     def print_text(self):
         self.button_save = tk.Button(self, text="Next", command=self.quit, font=self.font, anchor="w")
@@ -105,6 +106,7 @@ class Create_text(tk.Tk):
         self.get_output(save=True)  # for sentences
         self.words_get_output(save=True)  # for words
         #messagebox.showinfo('File was saved', 'File was saved/n You read {} sec'.format(self.read_time))
+        self.keep_tracking = False
         self.destroy()
 
     def get_bbox(self, x, y):
@@ -112,8 +114,8 @@ class Create_text(tk.Tk):
             # pass
             x = (x * self.width)
             y = (y * self.height)
-            print(x)
-            print(y)
+            # print(x)
+            # print(y)
         if self.points == True:
             self.draw_point(x, y)
         for key, value in self.bbox_info.items():
@@ -140,9 +142,9 @@ class Create_text(tk.Tk):
                     order = value[3]
                     order.append(self.fixation_number)
                     self.bbox_info[index] = [sentenсe, positions, fixations, order, value[4]]
-                    if self.verbose == True:
-                        print('Number sentence:{}, Sentence:{}, Order sentence:{}'.format(index, sentenсe,
-                                                                                          self.fixation_number))
+                    # if self.verbose == True:
+                        # print('Number sentence:{}, Sentence:{}, Order sentence:{}'.format(index, sentenсe,
+                        #                                                                   self.fixation_number))
                     self.update()
                     break
 
@@ -174,7 +176,7 @@ class Create_text(tk.Tk):
         self.output['fixation_order'] = self.output['fixation_order'].apply(lambda x: list(set(x)))
 
         if save == True:
-            path = os.path.join(RESULTS_WORDS_PATH, "{}_{}.csv")
+            path = os.path.join (RESULTS_MAIN_PATH, self.participant_id, 'Words', "{}_{}.csv")
             self.output.to_csv(path.format(self.participant_id, self.text_id), index=False)
 
     def get_output(self, save):  # create dataframe from bbox_info
@@ -186,31 +188,134 @@ class Create_text(tk.Tk):
         self.output['fixation_order'] = self.output['fixation_order'].apply(lambda x: list(set(x)))
 
         if save == True:
-            path = os.path.join(RESULTS_SENTENCES_PATH, "{}_{}.csv")
+            path = os.path.join(RESULTS_MAIN_PATH, self.participant_id, 'Sentences', "{}_{}.csv")
             self.output.to_csv(path.format(self.participant_id, self.text_id), index=False)
             # display(self.output)
 
 def start_eye_tracking(text, participant_id, current_text_id):
-
+    eye_tracker = False
     experiment_screen = Create_text(participant_id, text, current_text_id,
-                                    points=True, eye_tracker=False, verbose=True, see_rectangle=False)
-    for i in range(150):  # need to change to specific time or exit button
-        x = pyautogui.position().x
-        y = pyautogui.position().y
-        print(i)
-        # x=random.random()
-        # y=random.random()
-        # print("x is: " + str(x))
-        # print("y is: " + str(y))
-        try:
-            experiment_screen.get_bbox(x, y)
-            time.sleep(0.25)
-        except:
-            print('TclError')
-            break
+                                    points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=False)
 
+    if eye_tracker == False:
+        while experiment_screen.keep_tracking is True:
+            # need to change to specific time or exit button
+            x = pyautogui.position().x
+            y = pyautogui.position().y
+
+            try:
+                experiment_screen.get_bbox(x, y)
+                time.sleep(0.25)
+            except:
+                print('TclError')
+                break
+        return experiment_screen.read_time
+    else:
+        return eye_tracking(participant_id, text, current_text_id)
+
+
+def eye_tracking(participant_id, text, current_text_id):
+    ######################################################################################
+    # GazepointAPI.py - Example Client
+    # Written in 2013 by Gazepoint www.gazept.com
+    #
+    # To the extent possible under law, the author(s) have dedicated all copyright
+    # and related and neighboring rights to this software to the public domain worldwide.
+    # This software is distributed without any warranty.
+    #
+    # You should have received a copy of the CC0 Public Domain Dedication along with this
+    # software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+
+    ######################################################################################
+
+    import socket
+    from pointGUI import pointGUI
+    import time
+    import math
+    # from eyetrackergui import *
+    # Host machine IP
+    HOST = '127.0.0.1'
+    # Gazepoint Port
+    PORT = 4242
+    ADDRESS = (HOST, PORT)
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(ADDRESS)
+    s.send(str.encode('<SET ID="ENABLE_SEND_POG_FIX" STATE="1" />\r\n'))
+    s.send(str.encode('<SET ID="ENABLE_SEND_TIME" STATE="1" />\r\n'))
+    s.send(str.encode('<SET ID="ENABLE_SEND_DATA" STATE="1" />\r\n'))
+    # s.send(str.encode('<SET ID="CALIBRATE_START" STATE="1" />\r\n'))
+    # s.send(str.encode('<SET ID="CALIBRATE_SHOW" STATE="1" />\r\n'))
+
+    # try:
+    #     # first_screen = First_screen()
+    #     first_screen.mainloop()
+    #
+    #     user_name = first_screen.user_name
+    #     text_name = first_screen.user_text_name
+    #     user_age = first_screen.user_age
+    #     user_gender = first_screen.user_sex
+    #     user_text = first_screen.user_text
+    #     user_points = first_screen.points
+    # except:
+    #     pass
+
+    AP = pointGUI()
+    prevX = 1000
+    prevY = 1000
+    prevT = 0.0
+    coordinate_list = []
+    experiment_screen = Create_text(participant_id, text, current_text_id,
+                                    points=True, eye_tracker=True, verbose=True, see_rectangle=False)
+    x_list = []
+    y_list = []
+    while experiment_screen.keep_tracking is True:
+        rxdat = s.recv(1024)
+        records = bytes.decode(rxdat).split("<")
+        for el in records:
+            if ('REC' in el):
+                # print(el)
+                coords = el.split("\"")
+
+                try:
+                    oclidDis = math.sqrt(math.pow(float(coords[3]) - prevX, 2) + math.pow(float(coords[5]) - prevY, 2))
+                    timeThresh = float(coords[1]) - prevT
+                    # print(oclidDis)
+                    # print(coords[1])
+                    # if  abs(prevX - float(coords[3])) > 0.01 and abs(prevY - float(coords[5]) > 0.01):
+                    # print("TIME: " + coords[1] + " X:" + coords[3] + "  Y:" + coords[5])
+                    # if oclidDis > 0.5:
+
+                    x = float(coords[3])
+                    y = float(coords[5])
+                    x_list.append(x)
+                    y_list.append(y)
+                    if timeThresh > 0.8:
+
+                        print(timeThresh, prevT)
+                        x = np.mean(x_list)
+                        y = np.mean(y_list)
+                        # x = float(coords[3])
+                        # y = float(coords[5])
+                        x_list = []
+                        y_list = []
+                        # print(x)
+                        # print(y)
+                        try:
+                            experiment_screen.get_bbox(x, y)
+                        except tk.TclError:
+                            break
+                            # AP.clearCanvas()
+                        # AP.draw(float(coords[3]), float(coords[5]))
+                        # print(float(coords[3]), float(coords[5]))
+                        # prevX = float(coords[3])
+                        # prevY = float(coords[5])
+                        prevT = float(coords[1])
+                except:
+                    pass
+
+    s.close()
     return experiment_screen.read_time
-
     # except AttributeError:
     #
     #     print('AttributeError')

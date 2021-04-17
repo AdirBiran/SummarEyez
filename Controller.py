@@ -33,7 +33,7 @@ class Controller:
         file_17 = 'file17'  # 582 words
         file_18 = 'file18'  # 523 words
 
-        file_name = "d103g_LA062290-0169"
+        file_name = "file18"
 
         texts = []
 
