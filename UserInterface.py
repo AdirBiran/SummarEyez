@@ -89,6 +89,56 @@ def save_results():
         times = [timer_text_reading, timer_text_summarization, timer_highlighting, timer_ranking, timer_q1, timer_q2, timer_q3]
         controller.save_text_results(current_text_id, participant_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
 
+opened_ranking_popup = False
+ranking_var = ""
+
+
+def on_close(win):
+    global opened_ranking_popup
+    opened_ranking_popup = False
+    win.destroy()
+
+
+
+def ranking_popup():
+    global opened_ranking_popup, ranking_var
+    ranking_var = tk.IntVar()
+    if opened_ranking_popup is False:
+        win = tk.Toplevel()
+        win.wm_title("Ranking")
+        win.configure(bg=BACKGROUND_COLOR)
+        win.protocol("WM_DELETE_WINDOW", lambda w = win: on_close(w))
+
+        # Popup size
+        popup_width = 200
+        popup_height = 500
+
+        # Center the popup
+        screen_width = win.winfo_screenwidth()
+        screen_height = win.winfo_screenheight()
+        x_coordinate = int((screen_width / 2) - (popup_width / 2))
+        y_coordinate = int((screen_height / 2) - (popup_height / 2))
+        win.geometry("{}x{}+{}+{}".format(popup_width, popup_height, x_coordinate, y_coordinate))
+
+        new_title(win, "Ranking")
+
+        ranking_buttons = []
+
+        for i in range(1, 11):
+            btn = tk.Button(win, text=str(i), bg=BACKGROUND_COLOR, font=("David", 14, "bold"))
+            btn.configure(command=lambda val=i: ranking_var.set(val))
+            btn.pack()
+            ranking_buttons.append(btn)
+
+        opened_ranking_popup = True
+        btn.wait_variable(ranking_var)
+
+        win.destroy()
+        opened_ranking_popup = False
+
+        return ranking_var.get()
+
+
 # Open a custom popup
 def popup(title, content, justify="left"):
     for w in opened_popups:
@@ -513,19 +563,24 @@ class HighlightingFrame(tk.Frame):
 
             # All words in sentence
             words = sentence.split(" ")
+            words = list(filter(lambda x: x.strip() != "", words))
 
             # Foreach word in sentence
             for word in words:
-                sen_btn = tk.Button(self.buttons_frame, text=word, bg=BACKGROUND_COLOR)
-                sen_btn.configure(command=lambda btn=sen_btn: self.change_color(btn))
-                sen_btn.config(highlightthickness=0, borderwidth=0)
-                self.buttons.append(sen_btn)
-                self.buttons_mapping[sen_btn] = btn_cluster
+                word_btn = tk.Button(self.buttons_frame, text=word, bg=BACKGROUND_COLOR)
+                word_btn.configure(command=lambda btn=word_btn: self.change_color(btn))
+                word_btn.config(highlightthickness=0, borderwidth=0)
+                self.buttons.append(word_btn)
+                self.buttons_mapping[word_btn] = btn_cluster
+
+            rank_btn = tk.Button(self.buttons_frame, text="", bg=BACKGROUND_COLOR)
+            self.buttons.append(rank_btn)
+            self.buttons_mapping[rank_btn] = btn_cluster
 
             # All words from same sentence relate to same cluster
             btn_cluster += 1
 
-        frame_width = self.winfo_screenwidth() * 0.5
+        frame_width = self.winfo_screenwidth() * 0.7
         current_width = 0
 
         # Temp frame for each set of buttons
@@ -539,7 +594,10 @@ class HighlightingFrame(tk.Frame):
             btn_width = btn.winfo_reqwidth()
 
             # Copy button to another frame
-            btn_replicate = tk.Button(tmp_frame, text=btn["text"], bg=BACKGROUND_COLOR, font=("David", 16))
+            if btn['text'] == "":
+                btn_replicate = tk.Button(tmp_frame, text=btn["text"], bg=BACKGROUND_COLOR, font=("David", 13, "underline", "bold"))
+            else:
+                btn_replicate = tk.Button(tmp_frame, text=btn["text"], bg=BACKGROUND_COLOR, font=("David", 13))
             btn_replicate.configure(command=lambda btn=btn_replicate: self.change_color(btn))
             btn_replicate.config(highlightthickness=0, borderwidth=0)
 
@@ -554,13 +612,13 @@ class HighlightingFrame(tk.Frame):
 
             # Button fits to another line
             else:
-                tmp_frame.pack(side="top", anchor="w", pady=5)
+                tmp_frame.pack(side="top", anchor="w", pady=3)
                 btn_replicate.pack(side="left")
                 tmp_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
                 current_width = 0
 
             # Advancing current width
-            current_width += btn_width
+            current_width += btn_width + 4
 
         tmp_frame.pack(side="top", anchor="w", pady=5)
 
@@ -590,118 +648,44 @@ class HighlightingFrame(tk.Frame):
                     highlighted_buttons = [btn["text"] for btn in self.buttons_mapping if self.buttons_mapping[btn] == cl]
                     existed_clusters.append(cl)
                     highlighted_sentence = ' '.join(highlighted_buttons)
-                    highlighted_sentences.append(highlighted_sentence)
+                    highlighted_sentence_val = highlighted_sentence[highlighted_sentence.rfind("[") + 1 : highlighted_sentence.rfind("]")]
+                    highlighted_sentence_fixed = highlighted_sentence[0: highlighted_sentence.rfind(" ")]
+                    highlighted_sentences.append(highlighted_sentence_fixed)
+                    highlighted_sentences_scores.append(highlighted_sentence_val)
 
-        self.master.switch_frame(RankingInstructions)
+        self.master.switch_frame(QuestionsInstructions)
 
     # Highlighting method
     def change_color(self, btn):
+        global opened_ranking_popup
 
-        # Current cluster (sentence)
-        clust = self.buttons_mapping[btn]
+        if opened_ranking_popup is False:
 
-        # List of buttons to change
-        buttons_to_change = []
+            # Current cluster (sentence)
+            clust = self.buttons_mapping[btn]
 
-        # Foreach button with same cluster (in same sentence)
-        for key in self.buttons_mapping:
-            if clust == self.buttons_mapping[key]:
-                buttons_to_change.append(key)
+            # List of buttons to change
+            buttons_to_change = []
 
-        # Changing the button's color
-        for button in buttons_to_change:
-            if button["bg"] == BACKGROUND_COLOR:
-                button.config(bg=HIGHLIGHTED_COLOR)
-            else:
-                button.config(bg=BACKGROUND_COLOR)
+            # Foreach button with same cluster (in same sentence)
+            for key in self.buttons_mapping:
+                if clust == self.buttons_mapping[key]:
+                    buttons_to_change.append(key)
+            val = 0
 
+            if buttons_to_change[0]['bg'] == BACKGROUND_COLOR:
+                val = ranking_popup()
 
-# Ranking Instructions
-class RankingInstructions(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
-        self.configure(bg=BACKGROUND_COLOR)
-
-        new_title(self, "Ranking Instructions")
-
-        instructions = "In this step, you will have to rank the highlighted sentences from the last step."
-
-        tk.Label(self, text=instructions, bg=BACKGROUND_COLOR, font=TEXT_FONT).pack(pady=100)
-        new_button(self, "Click here to continue", lambda: self.master.switch_frame(RankingFrame)).pack()
-
-
-# Ranking Frame
-class RankingFrame(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
-        self.configure(bg=BACKGROUND_COLOR)
-        new_title(self, "Ranking")
-
-        # Start time for timer
-        self.start_time = time.time()
-
-        # Scores
-        scores = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-
-        self.inner_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
-
-        tk.Label(self.inner_frame, text="Sentences / Scores", bg=BACKGROUND_COLOR, font=TEXT_FONT).grid(row=1, column=0)
-
-        # Scores
-        for i in range(len(scores)):
-            tk.Label(self.inner_frame, text=scores[i], bg=BACKGROUND_COLOR, justify="left", font=TEXT_FONT).grid(row=1, column=i+2, padx=10, pady=5, sticky="w")
-
-        # Variables
-        self.string_vars = []
-        self.error_vars = []
-
-        # Sentences
-        for i in range(len(highlighted_sentences)):
-            self.st_var = tk.StringVar(self.inner_frame, 0)
-            tk.Message(self.inner_frame, text=highlighted_sentences[i], bg=BACKGROUND_COLOR, justify="left", width=600, font=("David", 13)).grid(row=i+2, column=0, pady=5)
-            error = tk.Label(self.inner_frame, text="", fg="red", bg=BACKGROUND_COLOR)
-            error.grid(row=i+2, column=1, pady=20)
-
-            # Radio buttons
-            for j in range(len(scores)):
-                tk.Radiobutton(self.inner_frame, value=scores[j], text=" ", variable=self.st_var, bg=BACKGROUND_COLOR).grid(row=i+2, column=j+2, padx=10, pady=5)
-
-            # String vars
-            self.string_vars.append(self.st_var)
-            self.error_vars.append(error)
-
-        # Just for tests
-        #for var in self.string_vars:
-        #    var.set("2")
-
-        # Next button
-        next_btn = new_button(self.inner_frame, btn_text="Next", btn_command=self.next)
-        next_btn.grid(row=len(highlighted_sentences)+3, column=0, pady=20)
-
-        self.inner_frame.pack(side="bottom")
-
-    # Next Button
-    def next(self):
-        global timer_ranking
-        timer_ranking = round(time.time() - self.start_time, 1)
-
-        # Cleaning errors
-        for err in self.error_vars:
-            err["text"] = ""
-
-        valid = True
-
-        # Checking each string var
-        for i in range(len(self.string_vars)):
-            if self.string_vars[i].get() == "0":
-                self.error_vars[i]["text"] = "*"
-                valid = False
-
-        # If all sentences were ranked
-        if valid:
-            for var in self.string_vars:
-                highlighted_sentences_scores.append(var.get())
-            self.master.switch_frame(QuestionsInstructions)
+            # Changing the button's color
+            for button in buttons_to_change:
+                if button["bg"] == BACKGROUND_COLOR:
+                    button.config(bg=HIGHLIGHTED_COLOR)
+                    if button['text'] == "":
+                        button['text'] = "[" + str(val) + "]"
+                else:
+                    button.config(bg=BACKGROUND_COLOR)
+                    if "[" in button['text'] and "]" in button['text']:
+                        button['text'] = ""
 
 
 # Questions Instructions
