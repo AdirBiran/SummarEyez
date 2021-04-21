@@ -21,14 +21,6 @@ class DataManagement:
         if not os.path.exists(RESULTS_MAIN_PATH):
             os.mkdir(RESULTS_MAIN_PATH)
 
-        # Create Words Results Directory
-        if not os.path.exists(RESULTS_WORDS_PATH):
-            os.mkdir(RESULTS_WORDS_PATH)
-
-        # Create Sentences Results Directory
-        if not os.path.exists(RESULTS_SENTENCES_PATH):
-            os.mkdir(RESULTS_SENTENCES_PATH)
-
         # Texts file headers
         texts_file_headers = ['TextID', 'Title', 'Text']
 
@@ -47,14 +39,6 @@ class DataManagement:
                 writer = csv.writer(fd)
                 writer.writerow(list(participant_file_headers))
 
-        # Experiment file headers
-        experiment_results_headers = ['ParticipantID', 'TextID', 'HighlightedSentences', 'SentencesScores', 'TextSummarization', 'Q1', 'Q2', 'Q3', 'TimeTextReading', 'TimeTextSummarization', 'TimeHighlighting', 'TimeRanking', 'TimeQ1', 'TimeQ2', 'TimeQ3']
-
-        # Create Experiment file if not exist
-        if not os.path.exists(RESULTS_EXPERIMENT_FILE):
-            with open(RESULTS_EXPERIMENT_FILE, 'a', newline='') as fd:
-                writer = csv.writer(fd)
-                writer.writerow(list(experiment_results_headers))
 
     # Adds new participant
     def add_new_participant(self, *args):
@@ -71,6 +55,13 @@ class DataManagement:
             writer = csv.writer(fd)
             writer.writerow(list(args))
 
+        if not os.path.exists(os.path.join(RESULTS_MAIN_PATH, args[0], "Results.csv")):
+            experiment_results_headers = ['ParticipantID', 'TextID', 'HighlightedSentences', 'SentencesScores', 'TextSummarization', 'Q1', 'Q2', 'Q3', 'TimeTextReading', 'TimeTextSummarization', 'TimeHighlighting', 'TimeRanking', 'TimeQ1', 'TimeQ2', 'TimeQ3']
+
+            with open(os.path.join(RESULTS_MAIN_PATH, args[0], "Results.csv"), "a", newline='') as fd:
+                writer = csv.writer(fd)
+                writer.writerow(list(experiment_results_headers))
+
     # Adds participant's record
     def add_participant_records(self, participant_id, current_text_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times):
 
@@ -81,7 +72,7 @@ class DataManagement:
         for time in times:
             records.append(time)
 
-        with open(RESULTS_EXPERIMENT_FILE, 'a', newline='') as fd:
+        with open(os.path.join(RESULTS_MAIN_PATH, str(participant_id), "Results.csv"), 'a', newline='') as fd:
             writer = csv.writer(fd)
             writer.writerow(records)
 
