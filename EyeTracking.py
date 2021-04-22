@@ -4,12 +4,14 @@ import pandas as pd
 import pyautogui
 from Settings import *
 import numpy as np
+from pointGUI import pointGUI
+import datetime
 
 class Create_text(tk.Tk):
     def __init__(self, participant_id, text, text_id, eye_tracker=True, see_rectangle=True
-                 , points=True, verbose=True):
+                 , points=False, verbose=True):
         super().__init__()
-        self.text_size = 13
+        self.text_size = 14
         self.space_size = 2
         self.start_time = time.time()
         self.config(cursor='circle red')
@@ -193,7 +195,7 @@ class Create_text(tk.Tk):
             # display(self.output)
 
 def start_eye_tracking(text, participant_id, current_text_id):
-    eye_tracker = False
+    eye_tracker = True
     experiment_screen = Create_text(participant_id, text, current_text_id,
                                     points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=False)
 
@@ -229,7 +231,7 @@ def eye_tracking(participant_id, text, current_text_id):
     ######################################################################################
 
     import socket
-    from pointGUI import pointGUI
+    # from pointGUI import pointGUI
     import time
     import math
     # from eyetrackergui import *
@@ -265,11 +267,33 @@ def eye_tracking(participant_id, text, current_text_id):
     prevY = 1000
     prevT = 0.0
     coordinate_list = []
+    timeSum = 0
+    start = 0.0
+    end = 0.0
     experiment_screen = Create_text(participant_id, text, current_text_id,
                                     points=True, eye_tracker=True, verbose=True, see_rectangle=False)
-    x_list = []
-    y_list = []
+    # x_list = []
+    # y_list = []
     while experiment_screen.keep_tracking is True:
+        if timeSum >= 0.8 and len(coordinate_list) > 0:
+            # print(timeSum)
+            # print(coordinate_list)
+            xAvg = np.average([float(tpl[0]) for tpl in coordinate_list])
+            yAvg = np.average([float(tpl[1]) for tpl in coordinate_list])
+            xStd = np.std([float(tpl[0]) for tpl in coordinate_list])
+            yStd = np.std([float(tpl[1]) for tpl in coordinate_list])
+            # print('Std: '+str(xStd)+'  '+str(yStd))
+            # print('Std average: '+str(np.average([xStd,yStd])))
+            std_avarage = np.average([xStd, yStd])
+            if (std_avarage < 0.1):
+                AP.clearCanvas()
+                AP.draw(xAvg, yAvg)
+            timeSum = 0
+            coordinate_list = []
+
+        start = datetime.datetime.now()
+        # print(start)
+
         rxdat = s.recv(1024)
         records = bytes.decode(rxdat).split("<")
         for el in records:
@@ -278,47 +302,64 @@ def eye_tracking(participant_id, text, current_text_id):
                 coords = el.split("\"")
 
                 try:
-                    oclidDis = math.sqrt(math.pow(float(coords[3]) - prevX, 2) + math.pow(float(coords[5]) - prevY, 2))
-                    timeThresh = float(coords[1]) - prevT
+                    coordinate_list.append((coords[3], coords[5]))
+                    #experiment_screen.get_bbox(xAvg, yAvg)
+
+
+                except:
+                    break
+                    # oclidDis = math.sqrt(math.pow(float(coords[3]) - prevX, 2) + math.pow(float(coords[5]) - prevY, 2))
+                    # timeThresh = float(coords[1]) - prevT
                     # print(oclidDis)
                     # print(coords[1])
                     # if  abs(prevX - float(coords[3])) > 0.01 and abs(prevY - float(coords[5]) > 0.01):
                     # print("TIME: " + coords[1] + " X:" + coords[3] + "  Y:" + coords[5])
                     # if oclidDis > 0.5:
+            end = datetime.datetime.now()
+            timeSum += (end - start).total_seconds()
 
-                    x = float(coords[3])
-                    y = float(coords[5])
-                    x_list.append(x)
-                    y_list.append(y)
-                    if timeThresh > 0.8:
 
-                        print(timeThresh, prevT)
-                        x = np.mean(x_list)
-                        y = np.mean(y_list)
-                        # x = float(coords[3])
-                        # y = float(coords[5])
-                        x_list = []
-                        y_list = []
+    s.close()
+
+
+                    # x = float(coords[3])
+                    # y = float(coords[5])
+                    # x_list.append(x)
+                    # y_list.append(y)
+                    # if timeThresh > 2:
+                    #
+                    #     # print(timeThresh, prevT)
+                    #     x = np.mean(x_list)
+                    #     y = np.mean(y_list)
+                    #     print("x size", len(x_list))
+                    #     print("y size", len(y_list))
+                    #
+                    #     # print("x is ",x)
+                    #     # print("ys is ",y)
+                    #     # x = float(coords[3])
+                    #     # y = float(coords[5])
+                    #     x_list = []
+                    #     y_list = []
                         # print(x)
                         # print(y)
-                        try:
-                            experiment_screen.get_bbox(x, y)
-                        except tk.TclError:
-                            break
+                        #     try:
+                        #         experiment_screen.get_bbox(x, y)
+                        #     except tk.TclError:
+                        #         break
                             # AP.clearCanvas()
                         # AP.draw(float(coords[3]), float(coords[5]))
                         # print(float(coords[3]), float(coords[5]))
                         # prevX = float(coords[3])
                         # prevY = float(coords[5])
-                        prevT = float(coords[1])
-                except:
-                    pass
-
-    s.close()
-    return experiment_screen.read_time
-    # except AttributeError:
+    #                     prevT = float(coords[1])
+    #             except:
+    #                 pass
     #
-    #     print('AttributeError')
+    # s.close()
+    # return experiment_screen.read_time
+    # # except AttributeError:
+    # #
+    # #     print('AttributeError')
     #     pass
 
     # In[ ]:
