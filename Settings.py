@@ -18,6 +18,7 @@ RESULTS_EXPERIMENT_FILE = os.path.join(RESULTS_MAIN_PATH, "Experiment.csv")
 
 # Highlighted Text Color
 HIGHLIGHTED_COLOR = "#fbf224"
+RANKING_COLOR = "#8efb84"
 
 # App Name
 APP_NAME = "SummarEyez"

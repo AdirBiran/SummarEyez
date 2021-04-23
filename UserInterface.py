@@ -110,13 +110,13 @@ def ranking_popup():
         win.protocol("WM_DELETE_WINDOW", lambda w = win: on_close(w))
 
         # Popup size
-        popup_width = 200
-        popup_height = 500
+        popup_width = 150
+        popup_height = 400
 
         # Center the popup
         screen_width = win.winfo_screenwidth()
         screen_height = win.winfo_screenheight()
-        x_coordinate = int((screen_width / 2) - (popup_width / 2))
+        x_coordinate = int((screen_width) - (popup_width))
         y_coordinate = int((screen_height / 2) - (popup_height / 2))
         win.geometry("{}x{}+{}+{}".format(popup_width, popup_height, x_coordinate, y_coordinate))
 
@@ -505,18 +505,61 @@ class TextSummarizationFrame(tk.Frame):
         self.user_text_summary = tk.Text(self.inner_frame, height="20", width="100", font=TEXT_FONT)
         self.user_text_summary.grid(row=1, column=0)
 
+        self.words_count = tk.IntVar()
+        self.words_count.set(0)
+
         # Next button
+        self.words_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
+
+        self.words_count_lbl = tk.Label(self.words_frame, text="Words Count:", bg=BACKGROUND_COLOR, font=TEXT_FONT)
+        self.words_count_lbl.pack(side="left")
+        self.counter = tk.Label(self.words_frame, textvariable=self.words_count, bg=BACKGROUND_COLOR, font=TEXT_FONT)
+        self.counter.pack(side="left")
+
+        self.words_count_error = tk.Label(self.words_frame, text="", fg="red", bg=BACKGROUND_COLOR, font=TEXT_FONT)
+        self.words_count_error.pack(side="right")
+
         next_btn = new_button(self.inner_frame, btn_text="Next", btn_command=self.next)
         next_btn.grid(row=3, column=0, pady=20)
 
+
         self.inner_frame.pack(side="bottom")
+        self.words_frame.pack(side="left", fill="x")
+
+        self.update_words_counter()
+
+    def update_words_counter(self):
+        text_summary = self.user_text_summary.get("1.0", 'end-1c')
+        text_split = text_summary.strip().split(" ")
+        if len(text_split) == 1:
+            self.words_count.set(0)
+        else:
+            self.words_count.set(len(text_split))
+
+        self.words_count_lbl["text"] = "Words Count:"
+
+        self.words_count_error["text"] = ""
+
+        self.after(2000, self.update_words_counter)
 
     # Next button
     def next(self):
         global text_summary, timer_text_summarization
         text_summary = self.user_text_summary.get("1.0", 'end-1c')
-        timer_text_summarization = round(time.time() - self.start_time, 1)
-        self.master.switch_frame(HighlightingInstructions)
+        text_split = text_summary.strip().split(" ")
+        if len(text_split) == 1:
+            self.words_count.set(0)
+        else:
+            self.words_count.set(len(text_split))
+        if self.words_count.get() >= 50 and self.words_count.get() <= 100:
+            timer_text_summarization = round(time.time() - self.start_time, 1)
+            self.words_count_error["text"] = ""
+            self.master.switch_frame(HighlightingInstructions)
+        else:
+            self.words_count.set("")
+            self.words_count_lbl["text"] = ""
+            self.words_count_error["text"] = "Summarization is not between 50-100 words"
+            self.master.switch_frame(HighlightingInstructions)
 
 
 # Highlighting Instructions
@@ -531,6 +574,7 @@ class HighlightingInstructions(tk.Frame):
 
         tk.Label(self, text=instructions, bg=BACKGROUND_COLOR, font=TEXT_FONT).pack(pady=100)
         new_button(self, "Click here to continue", lambda: self.master.switch_frame(HighlightingFrame)).pack()
+
 
 
 # Highlighting Frame
@@ -623,13 +667,22 @@ class HighlightingFrame(tk.Frame):
         tmp_frame.pack(side="top", anchor="w", pady=5)
 
         # Next button
-        next_btn = new_button(self.inner_frame, btn_text="Next", btn_command=self.next)
-        next_btn.grid(row=btn_cluster+1, column=0, pady=20)
+        self.next_btn = new_button(self.inner_frame, btn_text="Start Ranking", btn_command=self.start_ranking)
+        self.next_btn.grid(row=btn_cluster+1, column=0, pady=20)
         self.buttons_frame.pack(side="top")
         self.inner_frame.pack(side="bottom")
 
+    def start_ranking(self):
+        buttons = [btn for btn in self.buttons_mapping]
+        for btn in buttons:
+            btn.configure(command=lambda butn=btn: self.change_color_ranking(butn))
+
+        self.next_btn["text"] = "Next"
+        self.next_btn.configure(command=self.next)
+
     # Next button
     def next(self):
+
         global timer_highlighting
         timer_highlighting = round(time.time() - self.start_time, 1)
 
@@ -655,6 +708,7 @@ class HighlightingFrame(tk.Frame):
 
         self.master.switch_frame(QuestionsInstructions)
 
+
     # Highlighting method
     def change_color(self, btn):
         global opened_ranking_popup
@@ -671,21 +725,44 @@ class HighlightingFrame(tk.Frame):
             for key in self.buttons_mapping:
                 if clust == self.buttons_mapping[key]:
                     buttons_to_change.append(key)
-            val = 0
-
-            if buttons_to_change[0]['bg'] == BACKGROUND_COLOR:
-                val = ranking_popup()
 
             # Changing the button's color
             for button in buttons_to_change:
                 if button["bg"] == BACKGROUND_COLOR:
                     button.config(bg=HIGHLIGHTED_COLOR)
-                    if button['text'] == "":
-                        button['text'] = "[" + str(val) + "]"
                 else:
                     button.config(bg=BACKGROUND_COLOR)
-                    if "[" in button['text'] and "]" in button['text']:
-                        button['text'] = ""
+
+
+    # Ranking method
+    def change_color_ranking(self, btn):
+        global opened_ranking_popup
+
+        if btn["bg"] == HIGHLIGHTED_COLOR:
+            if opened_ranking_popup is False:
+
+                # Current cluster (sentence)
+                clust = self.buttons_mapping[btn]
+
+                # List of buttons to change
+                buttons_to_change = []
+
+                # Foreach button with same cluster (in same sentence)
+                for key in self.buttons_mapping:
+                    if clust == self.buttons_mapping[key]:
+                        buttons_to_change.append(key)
+
+                for btn in buttons_to_change:
+                    btn["bg"] = RANKING_COLOR
+
+                val = ranking_popup()
+
+                # Changing the button's color
+                for button in buttons_to_change:
+                    button["bg"] = HIGHLIGHTED_COLOR
+                    if button['text'] == "":
+                        button['text'] = "[" + str(val) + "]"
+
 
 
 # Questions Instructions
