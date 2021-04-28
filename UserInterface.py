@@ -563,7 +563,7 @@ class TextSummarizationFrame(tk.Frame):
             self.words_count.set(0)
         else:
             self.words_count.set(len(text_split))
-        if self.words_count.get() >= 50 and self.words_count.get() <= 100:
+        if self.words_count.get() >= 80 and self.words_count.get() <= 100:
             timer_text_summarization = round(time.time() - self.start_time, 1)
             self.words_count_error["text"] = ""
             self.master.switch_frame(HighlightingInstructions)
