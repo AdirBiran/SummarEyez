@@ -99,7 +99,18 @@ def on_close(win):
     win.destroy()
 
 
-
+ranking_dict = {
+    1: "normal",
+    2: "normal",
+    3: "normal",
+    4: "normal",
+    5: "normal",
+    6: "normal",
+    7: "normal",
+    8: "normal",
+    9: "normal",
+    10: "normal"
+}
 def ranking_popup():
     global opened_ranking_popup, ranking_var
     ranking_var = tk.IntVar()
@@ -126,6 +137,7 @@ def ranking_popup():
 
         for i in range(1, 11):
             btn = tk.Button(win, text=str(i), bg=BACKGROUND_COLOR, font=("David", 14, "bold"))
+            btn["state"] = ranking_dict[i]
             btn.configure(command=lambda val=i: ranking_var.set(val))
             btn.pack()
             ranking_buttons.append(btn)
@@ -739,6 +751,7 @@ class HighlightingFrame(tk.Frame):
         global opened_ranking_popup
 
         if btn["bg"] == HIGHLIGHTED_COLOR:
+
             if opened_ranking_popup is False:
 
                 # Current cluster (sentence)
@@ -752,16 +765,25 @@ class HighlightingFrame(tk.Frame):
                     if clust == self.buttons_mapping[key]:
                         buttons_to_change.append(key)
 
+                flag_marked_already = False
+
                 for btn in buttons_to_change:
-                    btn["bg"] = RANKING_COLOR
+                    if "[" in btn["text"] and "]" in btn["text"]:
+                        flag_marked_already = True
 
-                val = ranking_popup()
 
-                # Changing the button's color
-                for button in buttons_to_change:
-                    button["bg"] = HIGHLIGHTED_COLOR
-                    if button['text'] == "":
-                        button['text'] = "[" + str(val) + "]"
+                if flag_marked_already is False:
+                    for btn in buttons_to_change:
+                        btn["bg"] = RANKING_COLOR
+
+                    val = ranking_popup()
+                    ranking_dict[val] = "disabled"
+
+                    # Changing the button's color
+                    for button in buttons_to_change:
+                        button["bg"] = HIGHLIGHTED_COLOR
+                        if button['text'] == "":
+                            button['text'] = "[" + str(val) + "]"
 
 
 

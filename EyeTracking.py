@@ -43,8 +43,8 @@ class Create_text(tk.Tk):
         self.keep_tracking = True
 
     def print_text(self):
-        self.button_save = tk.Button(self, text="Next", command=self.quit, font=self.font, anchor="w")
-        self.button_save.place(relx=0.03, rely=0.9)
+        self.button_save = tk.Button(self, text="Next", command=self.quit, font=self.font, anchor="e")
+        self.button_save.place(relx=0.9, rely=0.9)
         index_word = 1
 
         """indexing each sentence in asecnding order"""
