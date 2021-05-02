@@ -11,8 +11,8 @@ class Create_text(tk.Tk):
     def __init__(self, participant_id, text, text_id, eye_tracker=True, see_rectangle=True
                  , points=False, verbose=True):
         super().__init__()
-        self.text_size = 14
-        self.space_size = 2
+        self.text_size = 16
+        self.space_size = 4
         self.start_time = time.time()
         self.config(cursor='circle red')
         self.participant_id = participant_id
@@ -41,6 +41,7 @@ class Create_text(tk.Tk):
         self.word_fixation_number = 0
         self.print_text()
         self.keep_tracking = True
+        self.read_time = -1
 
     def print_text(self):
         self.button_save = tk.Button(self, text="Next", command=self.quit, font=self.font, anchor="e")
@@ -65,12 +66,20 @@ class Create_text(tk.Tk):
                                                   text=word + suffix, font=self.font,
                                                   justify="left", fill="black", anchor="nw")
                 bbox = self.canvas.bbox(sent_id)  # X1,Y1,X2,Y2 coordinates for a rectangle which encloses word item
+
+                x_left_delta = 0
+                x_right_delta = 0
+                y_up_delta = 20
+                y_down_delta = 20
+
+                bbox = (bbox[0], bbox[1] - y_up_delta, bbox[2], bbox[3] + y_down_delta)
+
                 if self.see_rectangle == True:
                     self.canvas.create_rectangle(bbox, outline="black")  # draw word rectangles
                 width = self.start_position_x + bbox[2] - bbox[0] + 5  # calculate word width
                 x_left = self.start_position_x
                 x_right = self.start_position_x + bbox[2] - bbox[0]
-                y_up = self.start_position_y
+                y_up = bbox[1]
                 y_down = self.start_position_y + bbox[3] - bbox[1]
                 if width + 120 < self.width:
                     self.start_position_x += bbox[2] - bbox[0]
@@ -127,12 +136,14 @@ class Create_text(tk.Tk):
                 x_right = position[1]
                 y_up = position[2]
                 y_down = position[3]
+
                 if x_left <= x <= x_right and y_up <= y <= y_down:
                     self.update_info_on_word(x_left, x_right, y_up, y_down)
                     index = key
-                    sentenсe = value[0]
+                    sentence = value[0]
                     positions = value[1]
                     fixations = value[2] + 1
+                    print(sentence)
                     # count_fixation_sentence = value[4]
                     if self.previous_fixation != index:
                         self.fixation_number += 1
@@ -143,7 +154,7 @@ class Create_text(tk.Tk):
                         value[4][self.fixation_number] = 1
                     order = value[3]
                     order.append(self.fixation_number)
-                    self.bbox_info[index] = [sentenсe, positions, fixations, order, value[4]]
+                    self.bbox_info[index] = [sentence, positions, fixations, order, value[4]]
                     # if self.verbose == True:
                         # print('Number sentence:{}, Sentence:{}, Order sentence:{}'.format(index, sentenсe,
                         #                                                                   self.fixation_number))
@@ -195,9 +206,9 @@ class Create_text(tk.Tk):
             # display(self.output)
 
 def start_eye_tracking(text, participant_id, current_text_id):
-    eye_tracker = True
+    eye_tracker = False
     experiment_screen = Create_text(participant_id, text, current_text_id,
-                                    points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=False)
+                                    points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=True)
 
     if eye_tracker == False:
         while experiment_screen.keep_tracking is True:
