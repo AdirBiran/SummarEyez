@@ -33,7 +33,7 @@ class Controller:
         file_17 = 'file17'  # 582 words
         file_18 = 'file18'  # 523 words
 
-        file_name = "file18"
+        file_name = "1906 San Francisco earthquake - d077b_AP891018-0084"
 
         texts = []
 

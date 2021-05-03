@@ -6,6 +6,7 @@ from Settings import *
 import numpy as np
 from pointGUI import pointGUI
 import datetime
+from nltk.tokenize import sent_tokenize
 
 class Create_text(tk.Tk):
     def __init__(self, participant_id, text, text_id, eye_tracker=True, see_rectangle=True
@@ -50,7 +51,9 @@ class Create_text(tk.Tk):
 
         """indexing each sentence in asecnding order"""
         bbox_info = {}
-        for index, sentenсe in enumerate(self.text.split(".")):
+        sentences = sent_tokenize(self.text)
+        for index, sentenсe in enumerate(sentences):
+        # for index, sentenсe in enumerate(self.text.split(".")):
             if len(sentenсe) == 0:
                 continue
             sentenсe = sentenсe.lstrip()
@@ -58,13 +61,15 @@ class Create_text(tk.Tk):
             for number, word in enumerate(sentenсe.split(" ")):
                 if len(word) == 0:
                     continue
-                if number == len(sentenсe.split(" ")) - 1:
-                    suffix = '. '  # including suffix '.' as the word area
-                else:
-                    suffix = ' '  # including suffix space as the word area
-                sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y,  # id for specify word
-                                                  text=word + suffix, font=self.font,
-                                                  justify="left", fill="black", anchor="nw")
+                # id for specify word
+                sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word + ' ',
+                                                  font=self.font, justify="left", fill="black", anchor="nw")
+                # if number == len(sentenсe.split(" ")) - 1:
+                #     suffix = '. '  # including suffix '.' as the word area
+                # else:
+                #     suffix = ' '  # including suffix space as the word area
+                # sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y,  # id for specify word
+                #                                   text=word + suffix, font=self.font,
                 bbox = self.canvas.bbox(sent_id)  # X1,Y1,X2,Y2 coordinates for a rectangle which encloses word item
 
                 x_left_delta = 0
