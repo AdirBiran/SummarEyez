@@ -27,20 +27,31 @@ class Controller:
     def get_demo_texts(self):
 
         """ files for 15 inch screen"""
-        file_14 = 'file14'  # 815 words
-        file_15 = 'file15'  # 760 words
-        file_16 = 'file16'  # 688 words
-        file_17 = 'file17'  # 582 words
-        file_18 = 'file18'  # 523 words
+        file1 = 'Text1/Text1'
+        file2 = 'Text2/Text2'
+        file3 = 'Text3/Text3'
+        file4 = 'Text4/Text4'
+        file5 = 'Text5/Text5'
+        file6 = 'Text6/Text6'
+        file7 = 'Text7/Text7'
+        file8 = 'Text8/Text8'
+        file9 = 'Text9/Text9'
+        file10 = 'Text10/Text10'
 
-        file_name = "1906 San Francisco earthquake - d077b_AP891018-0084"
+        # file_14 = 'file14'  # 815 words
+        # file_15 = 'file15'  # 760 words
+        # file_16 = 'file16'  # 688 words
+        # file_17 = 'file17'  # 582 words
+        # file_18 = 'file18'  # 523 words
+
+        file_name = file1
 
         texts = []
 
         for i in range(1, 5):
 
             text_id = random.randint(0, 100)
-            text = (open('Texts/{}.txt'.format(file_name), 'r')).read()
+            text = (open('Texts/' + file_name + '.txt'.format(file_name), 'r')).read()
 
             split = text.split(" ")
             fixed_text = []
