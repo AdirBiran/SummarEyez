@@ -13,13 +13,13 @@ class Create_text(tk.Tk):
                  , points=False, verbose=True):
         super().__init__()
         self.text_size = 14
-        self.space_size = 2
+        self.space_size = 4
         self.start_time = time.time()
         self.config(cursor='circle red')
         self.participant_id = participant_id
         self.text_id = text_id
         self.text = text
-        self.see_rectangle = False
+        self.see_rectangle = True
         self.points = points
         self.verbose = verbose
         self.title("SummerEyes")
@@ -74,8 +74,8 @@ class Create_text(tk.Tk):
 
                 x_left_delta = 0
                 x_right_delta = 0
-                y_up_delta = 3
-                y_down_delta = 3
+                y_up_delta = 17
+                y_down_delta = 17
 
                 bbox = (bbox[0], bbox[1] - y_up_delta, bbox[2], bbox[3] + y_down_delta)
 
@@ -212,7 +212,7 @@ class Create_text(tk.Tk):
             # display(self.output)
 
 def start_eye_tracking(text, participant_id, current_text_id):
-    eye_tracker = False
+    eye_tracker = True
     experiment_screen = Create_text(participant_id, text, current_text_id,
                                     points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=True)
 

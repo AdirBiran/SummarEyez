@@ -45,7 +45,7 @@ class Controller:
         # file_17 = 'file17'  # 582 words
         # file_18 = 'file18'  # 523 words
 
-        file_name = file1
+        file_name = file6
 
         texts = []
 
