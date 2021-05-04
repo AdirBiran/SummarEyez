@@ -543,6 +543,7 @@ class TextSummarizationFrame(tk.Frame):
     def update_words_counter(self):
         text_summary = self.user_text_summary.get("1.0", 'end-1c')
         text_split = text_summary.strip().split(" ")
+
         if len(text_split) == 1:
             self.words_count.set(0)
         else:
@@ -563,15 +564,15 @@ class TextSummarizationFrame(tk.Frame):
             self.words_count.set(0)
         else:
             self.words_count.set(len(text_split))
-        if self.words_count.get() >= 80 and self.words_count.get() <= 100:
+        if self.words_count.get() >= 30 and self.words_count.get() <= 60:
             timer_text_summarization = round(time.time() - self.start_time, 1)
             self.words_count_error["text"] = ""
             self.master.switch_frame(HighlightingInstructions)
         else:
             self.words_count.set("")
             self.words_count_lbl["text"] = ""
-            self.words_count_error["text"] = "Summarization is not between 50-100 words"
-            self.master.switch_frame(HighlightingInstructions)
+            self.words_count_error["text"] = "Summarization is not between 30-60 words"
+            #self.master.switch_frame(HighlightingInstructions)
 
 
 # Highlighting Instructions

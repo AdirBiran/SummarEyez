@@ -12,14 +12,14 @@ class Create_text(tk.Tk):
     def __init__(self, participant_id, text, text_id, eye_tracker=True, see_rectangle=True
                  , points=False, verbose=True):
         super().__init__()
-        self.text_size = 16
-        self.space_size = 4
+        self.text_size = 14
+        self.space_size = 2
         self.start_time = time.time()
         self.config(cursor='circle red')
         self.participant_id = participant_id
         self.text_id = text_id
         self.text = text
-        self.see_rectangle = see_rectangle
+        self.see_rectangle = False
         self.points = points
         self.verbose = verbose
         self.title("SummerEyes")
@@ -74,8 +74,8 @@ class Create_text(tk.Tk):
 
                 x_left_delta = 0
                 x_right_delta = 0
-                y_up_delta = 20
-                y_down_delta = 20
+                y_up_delta = 3
+                y_down_delta = 3
 
                 bbox = (bbox[0], bbox[1] - y_up_delta, bbox[2], bbox[3] + y_down_delta)
 
@@ -133,7 +133,8 @@ class Create_text(tk.Tk):
             # print(x)
             # print(y)
         if self.points == True:
-            self.draw_point(x, y)
+            pass
+            # self.draw_point(x, y)
         for key, value in self.bbox_info.items():
             positions = value[1]
             for i, position in enumerate(positions):
@@ -223,7 +224,7 @@ def start_eye_tracking(text, participant_id, current_text_id):
 
             try:
                 experiment_screen.get_bbox(x, y)
-                time.sleep(0.25)
+                #time.sleep(0.25)
             except:
                 print('TclError')
                 break
@@ -300,10 +301,13 @@ def eye_tracking(participant_id, text, current_text_id):
             yStd = np.std([float(tpl[1]) for tpl in coordinate_list])
             # print('Std: '+str(xStd)+'  '+str(yStd))
             # print('Std average: '+str(np.average([xStd,yStd])))
+
             std_avarage = np.average([xStd, yStd])
             if (std_avarage < 0.1):
                 AP.clearCanvas()
                 AP.draw(xAvg, yAvg)
+                experiment_screen.get_bbox(xAvg, yAvg)
+
             timeSum = 0
             coordinate_list = []
 
@@ -316,14 +320,11 @@ def eye_tracking(participant_id, text, current_text_id):
             if ('REC' in el):
                 # print(el)
                 coords = el.split("\"")
-
                 try:
                     coordinate_list.append((coords[3], coords[5]))
                     #experiment_screen.get_bbox(xAvg, yAvg)
-
-
                 except:
-                    break
+                    pass
                     # oclidDis = math.sqrt(math.pow(float(coords[3]) - prevX, 2) + math.pow(float(coords[5]) - prevY, 2))
                     # timeThresh = float(coords[1]) - prevT
                     # print(oclidDis)
@@ -331,8 +332,8 @@ def eye_tracking(participant_id, text, current_text_id):
                     # if  abs(prevX - float(coords[3])) > 0.01 and abs(prevY - float(coords[5]) > 0.01):
                     # print("TIME: " + coords[1] + " X:" + coords[3] + "  Y:" + coords[5])
                     # if oclidDis > 0.5:
-            end = datetime.datetime.now()
-            timeSum += (end - start).total_seconds()
+        end = datetime.datetime.now()
+        timeSum += (end - start).total_seconds()
 
 
     s.close()
