@@ -1,10 +1,12 @@
 from DataManagement import *
 import random
+import json
 
 
 class Controller:
     def __init__(self):
         self.data_access = DataManagement()
+        self.texts_counter = 1
 
     # Add new participant to database
     def add_new_participant(self, participant_id, first_name, last_name, gender, age):
@@ -21,10 +23,38 @@ class Controller:
     # answers = 12 answers
     # [ [text_id, text, [questions], [answers]], [text_id, text, [questions], [answers]], [text_id, text, [questions], [answers]] ]
     def get_texts(self):
-        pass
+
+        texts_counter = self.get_current_texts_counter()
+
+        texts = []
+        for i in range(4):
+            text_path = os.path.join(TEXTS_PATH, str(texts_counter) + ".json")
+            with open(text_path) as f:
+                data = json.load(f)
+                texts.append(data)
+                texts_counter += 1
+
+            if texts_counter == CURRENT_NUM_OF_ALL_TEXTS + 1:
+                texts_counter = 1
+
+        self.update_current_texts_counter(texts_counter)
+        return texts
+
+    def get_current_texts_counter(self):
+        with open(CONFIG_FILE) as f:
+            data = json.load(f)
+            return data["Texts_Counter"]
+
+    def update_current_texts_counter(self, new_texts_counter):
+
+        config_dict = {"Texts_Counter": new_texts_counter}
+
+        with open(CONFIG_FILE, 'w') as f:
+            json.dump(config_dict, f)
 
     # Getting 4 demo texts
     def get_demo_texts(self):
+
 
         """ files for 15 inch screen"""
         file1 = 'Text1/Text1'

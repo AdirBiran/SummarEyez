@@ -7,6 +7,9 @@ from Controller import Controller
 from Settings import *
 from EyeTracking import start_eye_tracking
 
+#import nltk
+#nltk.download('punkt')
+
 # Styles
 TITLE_FONT_STYLE = ("David", 28, "bold")
 SUBTITLE_FONT_STYLE = ("David", 24, "bold")
@@ -53,7 +56,7 @@ def init_texts():
     if demo:
         texts = controller.get_demo_texts()
     else:
-        texts = controller.get_demo_texts()
+        texts = controller.get_texts()
     current_text_id = texts[0][0]
     current_text = texts[0][1]
     current_text_questions = texts[0][2]
@@ -64,10 +67,12 @@ def init_texts():
 # Initiate next text
 def init_next_text():
     global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text
-    current_text_id = texts[next_text][0]
-    current_text = texts[next_text][1]
-    current_text_questions = texts[next_text][2]
-    current_text_answers = texts[next_text][3]
+    current_text_id = texts[next_text]["ID"]
+    current_text = texts[next_text]["Text"]
+    current_text_questions = [texts[next_text]["Q1"], texts[next_text]["Q2"], texts[next_text]["Q3"]]
+    current_text_answers = [texts[next_text]["Q1A1"], texts[next_text]["Q1A2"], texts[next_text]["Q1A3"], texts[next_text]["Q1A4"], texts[next_text]["Q2A1"],
+                            texts[next_text]["Q2A2"], texts[next_text]["Q2A3"], texts[next_text]["Q2A4"], texts[next_text]["Q3A1"], texts[next_text]["Q3A2"],
+                            texts[next_text]["Q3A3"], texts[next_text]["Q3A4"]]
     next_text += 1
 
 
@@ -299,7 +304,7 @@ class MainFrame(tk.Frame):
 
     # Starting the app
     def start(self):
-        init_texts()
+        #init_texts()
         self.master.switch_frame(NewParticipantFrame)
 
 # New Participant frame
@@ -458,7 +463,7 @@ class DemoExperimentFrame(tk.Frame):
         demo_button.grid(row=2, column=0, pady=(pad_y, 400), padx=pad_x)
 
         # Experiment Button
-        experiment_button = new_button(self.inner_frame, "Start Experiment", lambda: self.master.switch_frame(TextReadingInstructions))
+        experiment_button = new_button(self.inner_frame, "Start Experiment", self.start_experiment)
         experiment_button.grid(row=2, column=1, pady=(pad_y, 400), padx=pad_x)
 
         self.inner_frame.pack(side="bottom")
@@ -467,6 +472,15 @@ class DemoExperimentFrame(tk.Frame):
     def start_demo(self):
         global demo
         demo = True
+        self.master.switch_frame(TextReadingInstructions)
+
+    def start_experiment(self):
+        global current_text, current_text_id, current_text_questions, current_text_answers
+        texts = controller.get_texts()
+        current_text_id = texts[0]["ID"]
+        current_text = texts[0]["Text"]
+        current_text_questions = [texts[0]["Q1"], texts[0]["Q2"], texts[0]["Q3"]]
+        current_text_answers = [texts[0]["Q1A1"], texts[0]["Q1A2"], texts[0]["Q1A3"], texts[0]["Q1A4"], texts[0]["Q2A1"], texts[0]["Q2A2"], texts[0]["Q2A3"], texts[0]["Q2A4"], texts[0]["Q3A1"], texts[0]["Q3A2"], texts[0]["Q3A3"], texts[0]["Q3A4"]]
         self.master.switch_frame(TextReadingInstructions)
 
 
@@ -857,7 +871,7 @@ class QuestionsFrame(tk.Frame):
         self.q_frame.grid(row=0, column=0, padx=50)
 
         # Next button
-        new_button(self.inner_frame, "Next", self.next).grid(row=7, column=1, pady=50)
+        new_button(self.inner_frame, "Next", self.next).grid(row=7, column=0, pady=50)
 
         self.inner_frame.pack(side="top")
 

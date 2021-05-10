@@ -1,0 +1,28 @@
+ParticipantID,TextID,HighlightedSentences,SentencesScores,TextSummarization,Q1,Q2,Q3,TimeTextReading,TimeTextSummarization,TimeHighlighting,TimeRanking,TimeQ1,TimeQ2,TimeQ3
+123456789,9,"[""Shocked residents of Deal gathered outside the barracks to lay flowers in tribute to the young men they called the ``Bandies.''."", ""Archbishop of Canterbury Robert Runcie, spiritual leader of the Church of England, visited the injured and said he was impressed ``by their strength and determination that evil will not defeat them.''."", 'Explosives experts wearing white protective overalls were painstakingly examining the house Saturday, and Churchill-Coleman said they would continue for the next two or three days..']","[""Shocked residents of Deal gathered outside the barracks to lay flowers in tribute to the young men they called the ``Bandies.''."", ""Archbishop of Canterbury Robert Runcie, spiritual leader of the Church of England, visited the injured and said he was impressed ``by their strength and determination that evil will not defeat them.''."", '5']","a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+a a a a
+",1,2,3,2.5,7.7,8.9,0,3.8,2.9,2.6
+123456789,1,"['That suggested a bigger quake might happen in the San Francisco Bay area sooner than some believed..', 'The last great southern California quake, in 1857, killed very few people in a region that was then sparsely populated..']","['That suggested a bigger quake might happen in the San Francisco Bay area sooner than some believed..', 'The last great southern California quake, in 1857, killed very few people in a region that was then sparsely populated..']"," a aa  a a a a
+ a aa  a a a a
+ a aa  a a a a
+ a aa  a a a a
+ a aa  a a a a
+ a aa  a a a a
+ a aa  a a a a
+ a aa  a a a a
+",1,2,4,1.2,7.2,3.3,0,1.5,1.5,5.6
