@@ -54,13 +54,19 @@ opened_popups = []
 def init_texts():
     global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text, demo
     if demo:
+        print("demo")
         texts = controller.get_demo_texts()
+        print(texts)
     else:
         texts = controller.get_texts()
-    current_text_id = texts[0][0]
-    current_text = texts[0][1]
-    current_text_questions = texts[0][2]
-    current_text_answers = texts[0][3]
+
+    current_text_id = texts[0]["ID"]
+    current_text = texts[0]["Text"]
+    current_text_questions = [texts[0]["Q1"], texts[0]["Q2"], texts[0]["Q3"]]
+    current_text_answers = [texts[0]["Q1A1"], texts[0]["Q1A2"], texts[0]["Q1A3"], texts[0]["Q1A4"],
+                            texts[0]["Q2A1"], texts[0]["Q2A2"], texts[0]["Q2A3"], texts[0]["Q2A4"],
+                            texts[0]["Q3A1"], texts[0]["Q3A2"], texts[0]["Q3A3"], texts[0]["Q3A4"]]
+
     next_text = 1
 
 
@@ -472,15 +478,11 @@ class DemoExperimentFrame(tk.Frame):
     def start_demo(self):
         global demo
         demo = True
+        init_texts()
         self.master.switch_frame(TextReadingInstructions)
 
     def start_experiment(self):
-        global current_text, current_text_id, current_text_questions, current_text_answers
-        texts = controller.get_texts()
-        current_text_id = texts[0]["ID"]
-        current_text = texts[0]["Text"]
-        current_text_questions = [texts[0]["Q1"], texts[0]["Q2"], texts[0]["Q3"]]
-        current_text_answers = [texts[0]["Q1A1"], texts[0]["Q1A2"], texts[0]["Q1A3"], texts[0]["Q1A4"], texts[0]["Q2A1"], texts[0]["Q2A2"], texts[0]["Q2A3"], texts[0]["Q2A4"], texts[0]["Q3A1"], texts[0]["Q3A2"], texts[0]["Q3A3"], texts[0]["Q3A4"]]
+        init_texts()
         self.master.switch_frame(TextReadingInstructions)
 
 

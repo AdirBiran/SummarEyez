@@ -52,8 +52,21 @@ class Controller:
         with open(CONFIG_FILE, 'w') as f:
             json.dump(config_dict, f)
 
-    # Getting 4 demo texts
+    # Getting 1 demo text
     def get_demo_texts(self):
+
+        filename = "demo.json"
+
+        text_path = os.path.join(TEXTS_PATH, filename)
+        with open(text_path) as f:
+            data = json.load(f)
+            return [data]
+
+
+
+
+    # Getting 4 demo texts
+    def get_demo_texts_archive(self):
 
 
         """ files for 15 inch screen"""

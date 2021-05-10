@@ -1,32 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="503d7fff-e391-4021-a32d-8b1b1f882b24" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/SummarEyez.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SummarEyez.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="503d7fff-e391-4021-a32d-8b1b1f882b24" name="Default Changelist" comment="texts reading">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text1/Q1.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text1/Q1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text1/Text1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text10/Text10.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text10/Verapamil- A drug that eases the heart's workload - d075b_AP900322-0112.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text2/Andrei D. Sakharov - d082a_LA121589-0192.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text2/Text2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text3/Clarence Thomas - d074b_SJMN91-06255434.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text3/Text3.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text4/Indiana senator  Dan Quayle's family life - d065j_AP880817-0040.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text4/Text4.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text5/McDonald's South Korea - d064j_WSJ880412-0015.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text5/Text5.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text6/Prime Minister Margaret Thatcher - d076b_AP891106-0072.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text6/Text6.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text7/Sam Walton richest man in Bentonville -  d066j_AP890711-0223.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text7/Text7.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text8/Strike at the mining industry - d081a_WSJ870804-0095.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text8/Text8.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text9/Terrorist attack at the royal marines music school - d063j_AP890923-0091.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/Text9/Text9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Results.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Results.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_9.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_9.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_9.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_9.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/demo.json" beforeDir="false" afterPath="$PROJECT_DIR$/Texts/demo.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserInterface.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -83,6 +70,14 @@
       <option name="presentableId" value="Default" />
       <updated>1620656102695</updated>
     </task>
+    <task id="LOCAL-00001" summary="texts reading">
+      <created>1620664590862</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1620664590862</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -96,5 +91,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="texts reading" />
+    <option name="LAST_COMMIT_MESSAGE" value="texts reading" />
   </component>
 </project>
