@@ -7,6 +7,8 @@ import numpy as np
 from pointGUI import pointGUI
 import datetime
 from nltk.tokenize import sent_tokenize
+import string
+import re
 
 class Create_text(tk.Tk):
     def __init__(self, participant_id, text, text_id, eye_tracker=True, see_rectangle=True
@@ -133,8 +135,8 @@ class Create_text(tk.Tk):
             # print(x)
             # print(y)
         if self.points == True:
-            pass
-            # self.draw_point(x, y)
+            # pass
+            self.draw_point(x, y)
         for key, value in self.bbox_info.items():
             positions = value[1]
             for i, position in enumerate(positions):
@@ -186,25 +188,31 @@ class Create_text(tk.Tk):
         self.word_bbox_info[tuple_coordinates] = word_info
 
     def words_get_output(self, save):  # create dataframe from bbox_info
-        self.output = pd.DataFrame([(b[4], b[0], b[2], b[3], b[1])
+        self.output = pd.DataFrame([(b[4], b[0], b[2], b[3], b[3], b[1])
                                     for a, b in self.word_bbox_info.items()],
-                                   columns=['index', 'word', 'fixation_order',
-                                            'duration_fixation', 'total_duration_fixation'])
+                                   columns=['index', 'word', 'fixation_order', 'samples_duration_in_fixations',
+                                            'total_fixations', 'total_duration_samples_in_fixation'])
         self.output['count_letters'] = self.output['word'].apply(lambda x: len(x))
-        self.output['count_fixation_normalized'] = self.output['total_duration_fixation'] / self.output['count_letters']
-        self.output['fixation_order'] = self.output['fixation_order'].apply(lambda x: list(set(x)))
+        self.output['count_fixation_normalized'] = self.output['total_duration_samples_in_fixation'] / self.output['count_letters']
+        self.output['fixation_order'] = self.output['fixation_order'].apply(lambda x: sorted(list(set(x))))
+        self.output['total_fixations'] = self.output['total_fixations'].apply(lambda x: len(x))
 
         if save == True:
             path = os.path.join (RESULTS_MAIN_PATH, self.participant_id, 'Words', "{}_{}.csv")
             self.output.to_csv(path.format(self.participant_id, self.text_id), index=False)
 
     def get_output(self, save):  # create dataframe from bbox_info
-        self.output = pd.DataFrame([(a, b[0], b[3], b[4], b[2]) for a, b in self.bbox_info.items()],
-                                   columns=['index', 'sentenсe', 'fixation_order', 'duration_fixation',
-                                            'total_duration_fixation'])
-        self.output['count_words'] = self.output['sentenсe'].apply(lambda x: len(x.split(' ')))
-        self.output['count_fixation_normalized'] = self.output['total_duration_fixation'] / self.output['count_words']
+        self.output = pd.DataFrame([(a, b[0], b[3], b[4], b[4], b[2]) for a, b in self.bbox_info.items()],
+                                   columns=['index', 'sentence', 'fixation_order', 'samples_duration_in_fixations',
+                                            'total_fixations', 'total_duration_samples_in_fixation'])
+        self.output['count_words'] = self.output['sentence'].apply(lambda x: len(re.findall(r'\w+', x)))
+        self.output['normalized_sentence_by_count_words'] = self.output['total_duration_samples_in_fixation'] / \
+                                                            self.output['count_words']
+        self.output['count_chars'] = self.output['sentence'].apply(lambda x: x.count('')-1)
+        self.output['normalized_sentence_by_count_chars'] = self.output['total_duration_samples_in_fixation'] /\
+                                                            self.output['count_chars']
         self.output['fixation_order'] = self.output['fixation_order'].apply(lambda x: list(set(x)))
+        self.output['total_fixations'] = self.output['total_fixations'].apply(lambda x: len(x))
 
         if save == True:
             path = os.path.join(RESULTS_MAIN_PATH, self.participant_id, 'Sentences', "{}_{}.csv")
@@ -212,7 +220,7 @@ class Create_text(tk.Tk):
             # display(self.output)
 
 def start_eye_tracking(text, participant_id, current_text_id):
-    eye_tracker = True
+    eye_tracker = False
     experiment_screen = Create_text(participant_id, text, current_text_id,
                                     points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=True)
 

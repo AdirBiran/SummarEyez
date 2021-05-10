@@ -1,5 +1,8 @@
 import tkinter as tk
 import time
+
+from nltk import sent_tokenize
+
 from Controller import Controller
 from Settings import *
 from EyeTracking import start_eye_tracking
@@ -602,7 +605,8 @@ class HighlightingFrame(tk.Frame):
         self.start_time = time.time()
 
         # Current text's sentences
-        sentences = current_text.split(".")
+        # sentences = current_text.split(".")
+        sentences = sent_tokenize(current_text)
 
         # Mapping buttons (words) to clusters (sentences)
         self.buttons_mapping = {}
