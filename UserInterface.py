@@ -15,6 +15,7 @@ TITLE_FONT_STYLE = ("David", 28, "bold")
 SUBTITLE_FONT_STYLE = ("David", 24, "bold")
 TEXT_FONT = ("David", 20)
 TEXT_FONT_BOLD = ("David", 20, "bold")
+STATUSBAR_FONT = ("David", 16)
 BUTTON_FONT_STYLE = ("David", 20, "bold")
 TITLE_FONT_COLOR = 'DarkBlue'
 BACKGROUND_COLOR = "azure2"
@@ -26,6 +27,7 @@ controller = Controller()
 texts = []
 current_text_id = ""
 current_text = ""
+current_text_title = ""
 current_text_questions = []
 current_text_answers = []
 next_text = 1
@@ -47,12 +49,14 @@ participant_id = 0
 # Demo / Experiment
 demo = False
 
+statusbar = ""
+
 # For controlling opened popups
 opened_popups = []
 
 # Initiate texts
 def init_texts():
-    global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text, demo
+    global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text, demo, current_text_title
     if demo:
         print("demo")
         texts = controller.get_demo_texts()
@@ -66,19 +70,22 @@ def init_texts():
     current_text_answers = [texts[0]["Q1A1"], texts[0]["Q1A2"], texts[0]["Q1A3"], texts[0]["Q1A4"],
                             texts[0]["Q2A1"], texts[0]["Q2A2"], texts[0]["Q2A3"], texts[0]["Q2A4"],
                             texts[0]["Q3A1"], texts[0]["Q3A2"], texts[0]["Q3A3"], texts[0]["Q3A4"]]
+    current_text_title = texts[0]["Title"]
 
     next_text = 1
 
 
 # Initiate next text
 def init_next_text():
-    global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text
+    global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text, current_text_title
     current_text_id = texts[next_text]["ID"]
     current_text = texts[next_text]["Text"]
     current_text_questions = [texts[next_text]["Q1"], texts[next_text]["Q2"], texts[next_text]["Q3"]]
     current_text_answers = [texts[next_text]["Q1A1"], texts[next_text]["Q1A2"], texts[next_text]["Q1A3"], texts[next_text]["Q1A4"], texts[next_text]["Q2A1"],
                             texts[next_text]["Q2A2"], texts[next_text]["Q2A3"], texts[next_text]["Q2A4"], texts[next_text]["Q3A1"], texts[next_text]["Q3A2"],
                             texts[next_text]["Q3A3"], texts[next_text]["Q3A4"]]
+    current_text_title = texts[next_text]["Title"]
+
     next_text += 1
 
 
@@ -119,11 +126,6 @@ ranking_dict = {
     3: "normal",
     4: "normal",
     5: "normal",
-    6: "normal",
-    7: "normal",
-    8: "normal",
-    9: "normal",
-    10: "normal"
 }
 def ranking_popup():
     global opened_ranking_popup, ranking_var
@@ -136,7 +138,7 @@ def ranking_popup():
 
         # Popup size
         popup_width = 150
-        popup_height = 400
+        popup_height = 300
 
         # Center the popup
         screen_width = win.winfo_screenwidth()
@@ -149,7 +151,7 @@ def ranking_popup():
 
         ranking_buttons = []
 
-        for i in range(1, 11):
+        for i in range(1, 6):
             btn = tk.Button(win, text=str(i), bg=BACKGROUND_COLOR, font=("David", 14, "bold"))
             btn["state"] = ranking_dict[i]
             btn.configure(command=lambda val=i: ranking_var.set(val))
@@ -164,6 +166,34 @@ def ranking_popup():
 
         return ranking_var.get()
 
+
+def error_popup(content, justify="left"):
+    for w in opened_popups:
+        if w is None:
+            opened_popups.remove(w)
+        else:
+            w.destroy()
+            w = None
+
+    win = tk.Toplevel()
+    win.wm_title("Error!")
+    win.configure(bg=BACKGROUND_COLOR)
+
+    # Popup size
+    popup_width = 400
+    popup_height = 200
+
+    # Center the popup
+    screen_width = win.winfo_screenwidth()
+    screen_height = win.winfo_screenheight()
+    x_coordinate = int((screen_width / 2) - (popup_width / 2))
+    y_coordinate = int((screen_height / 2) - (popup_height / 2))
+    win.geometry("{}x{}+{}+{}".format(popup_width, popup_height, x_coordinate, y_coordinate))
+
+    new_title(win, "Error")
+    tk.Label(win, text=content, bg=BACKGROUND_COLOR, justify=justify).pack()
+
+    opened_popups.append(win)
 
 # Open a custom popup
 def popup(title, content, justify="left"):
@@ -222,6 +252,7 @@ def is_positive_number(num):
 class TextSummarizationApp(tk.Tk):
 
     def __init__(self):
+        global statusbar
         self.tk = tk.Tk()
         self.tk.attributes("-fullscreen", True)
         self.tk.configure(bg=BACKGROUND_COLOR)
@@ -234,6 +265,10 @@ class TextSummarizationApp(tk.Tk):
         menu_bar.add_command(label="About", command=self.popup_about)
         menu_bar.add_command(label="Exit", command=self.tk.destroy)
         self.tk.configure(menu=menu_bar)
+
+        statusbar = tk.Label(self, text="", bd=1, relief=tk.SUNKEN, anchor=tk.W, font=STATUSBAR_FONT)
+        statusbar.pack(side=tk.BOTTOM, fill=tk.X)
+
 
         self.current_frame = None
         self.switch_frame(MainFrame)
@@ -504,7 +539,11 @@ class TextReadingInstructions(tk.Frame):
     def start_reading_text(self):
         global timer_text_reading
         self.master.switch_frame(TextSummarizationInstructions)
-        timer_text_reading = start_eye_tracking(current_text, participant_id, current_text_id)
+
+        global statusbar, next_text, current_text_title
+        statusbar["text"] = "Text " + str(next_text) + "/4: " + current_text_title
+
+        timer_text_reading = start_eye_tracking(current_text, participant_id, current_text_id, current_text_title)
 
 # Text Summarizing Instructions
 class TextSummarizationInstructions(tk.Frame):
@@ -530,6 +569,7 @@ class TextSummarizationFrame(tk.Frame):
         self.start_time = time.time()
 
         new_title(self, "Text Summarization")
+
         self.inner_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
 
         # Text box
@@ -608,14 +648,16 @@ class HighlightingInstructions(tk.Frame):
         new_button(self, "Click here to continue", lambda: self.master.switch_frame(HighlightingFrame)).pack()
 
 
-
 # Highlighting Frame
 class HighlightingFrame(tk.Frame):
 
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         self.configure(bg=BACKGROUND_COLOR)
-        new_title(self, "Highlighting")
+
+        self.title = tk.Label(self, text="Highlighting", fg=TITLE_FONT_COLOR, font=TITLE_FONT_STYLE, bg=BACKGROUND_COLOR)
+        self.title.pack(side="top", fill="x", pady=10)
+
 
         # Start time for timer
         self.start_time = time.time()
@@ -707,20 +749,43 @@ class HighlightingFrame(tk.Frame):
 
     def start_ranking(self):
         buttons = [btn for btn in self.buttons_mapping]
-        for btn in buttons:
-            btn.configure(command=lambda butn=btn: self.change_color_ranking(butn))
+        existed_clusters = []
 
-        self.next_btn["text"] = "Next"
-        self.next_btn.configure(command=self.next)
+        for btn in buttons:
+            if btn["bg"] == HIGHLIGHTED_COLOR:
+
+                # Current button's cluster
+                cl = self.buttons_mapping[btn]
+
+                # If buttons weren't added already
+                if cl not in existed_clusters:
+                    existed_clusters.append(cl)
+
+
+        if len(existed_clusters) != 5:
+            error_popup("Please highlight exactly 5 sentences")
+        else:
+
+            self.title["text"] = "Ranking"
+
+            buttons = [btn for btn in self.buttons_mapping]
+            for btn in buttons:
+                btn.configure(command=lambda butn=btn: self.change_color_ranking(butn))
+
+            self.next_btn["text"] = "Next"
+            self.next_btn.configure(command=self.next)
 
     # Next button
     def next(self):
 
-        global timer_highlighting
+        global timer_highlighting, highlighted_sentences, highlighted_sentences_scores
         timer_highlighting = round(time.time() - self.start_time, 1)
-
+        flag_continue = True
         buttons = [btn for btn in self.buttons_mapping]
         existed_clusters = []
+
+        highlighted_sentences = []
+        highlighted_sentences_scores = []
 
         # Foreach button (word)
         for btn in buttons:
@@ -735,11 +800,18 @@ class HighlightingFrame(tk.Frame):
                     existed_clusters.append(cl)
                     highlighted_sentence = ' '.join(highlighted_buttons)
                     highlighted_sentence_val = highlighted_sentence[highlighted_sentence.rfind("[") + 1 : highlighted_sentence.rfind("]")]
-                    highlighted_sentence_fixed = highlighted_sentence[0: highlighted_sentence.rfind(" ")]
-                    highlighted_sentences.append(highlighted_sentence_fixed)
-                    highlighted_sentences_scores.append(highlighted_sentence_val)
+                    try:
+                        int(highlighted_sentence_val)
+                        highlighted_sentence_fixed = highlighted_sentence[0: highlighted_sentence.rfind(" ")]
+                        highlighted_sentences.append(highlighted_sentence_fixed)
+                        highlighted_sentences_scores.append(highlighted_sentence_val)
+                    except:
+                        error_popup("Not all sentences were ranked")
+                        flag_continue = False
 
-        self.master.switch_frame(QuestionsInstructions)
+
+        if flag_continue is True:
+            self.master.switch_frame(QuestionsInstructions)
 
 
     # Highlighting method
@@ -787,10 +859,12 @@ class HighlightingFrame(tk.Frame):
                         buttons_to_change.append(key)
 
                 flag_marked_already = False
+                value_marked = 0
 
                 for btn in buttons_to_change:
                     if "[" in btn["text"] and "]" in btn["text"]:
                         flag_marked_already = True
+                        value_marked = int(btn["text"].replace("[", "").replace("]", ""))
 
 
                 if flag_marked_already is False:
@@ -805,7 +879,12 @@ class HighlightingFrame(tk.Frame):
                         button["bg"] = HIGHLIGHTED_COLOR
                         if button['text'] == "":
                             button['text'] = "[" + str(val) + "]"
-
+                else:
+                    ranking_dict[value_marked] = "normal"
+                    for button in buttons_to_change:
+                        button["bg"] = HIGHLIGHTED_COLOR
+                        if "[" in button['text'] and "]" in button['text']:
+                            button['text'] = ""
 
 
 # Questions Instructions
@@ -850,7 +929,7 @@ class QuestionsFrame(tk.Frame):
         self.radio_buttons = []
 
         # Questions labels
-        self.question_lbl = tk.Label(self.q_frame, text="Question:   " + question, bg=BACKGROUND_COLOR, font=TEXT_FONT_BOLD)
+        self.question_lbl = tk.Label(self.q_frame, text=question, bg=BACKGROUND_COLOR, font=TEXT_FONT_BOLD)
         self.question_lbl.grid(row=1, column=0, pady=(50, 20))
 
         # Questions string vars
@@ -960,6 +1039,8 @@ class NextTextFrame(tk.Frame):
 
         new_button(self, "Click to continue to the next text", lambda: self.master.switch_frame(TextReadingInstructions)).pack(pady=100)
 
+        global statusbar
+        statusbar["text"] = ""
 
 # End Frame
 class EndFrame(tk.Frame):

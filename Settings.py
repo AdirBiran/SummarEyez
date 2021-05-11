@@ -22,6 +22,6 @@ HIGHLIGHTED_COLOR = "#fbf224"
 RANKING_COLOR = "#8efb84"
 
 # App Name
-APP_NAME = "SummarEyez"
+APP_NAME = "SummarEyes"
 
 CURRENT_NUM_OF_ALL_TEXTS = 10

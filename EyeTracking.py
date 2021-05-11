@@ -11,7 +11,7 @@ import string
 import re
 
 class Create_text(tk.Tk):
-    def __init__(self, participant_id, text, text_id, eye_tracker=True, see_rectangle=True
+    def __init__(self, participant_id, text, text_id, text_title, eye_tracker=True, see_rectangle=True
                  , points=False, verbose=True):
         super().__init__()
         self.text_size = 14
@@ -20,6 +20,7 @@ class Create_text(tk.Tk):
         self.config(cursor='circle red')
         self.participant_id = participant_id
         self.text_id = text_id
+        self.text_title = text_title
         self.text = text
         self.see_rectangle = True
         self.points = points
@@ -29,6 +30,7 @@ class Create_text(tk.Tk):
         self.height = self.winfo_screenheight()  # get display height
         self.attributes('-fullscreen', True)
         self.font = ("helvetica", self.text_size)  # font
+        self.title_font = ("helvetica", self.text_size, "bold", "underline")  # font
         self.canvas_background = "white"  # background color
         self.canvas = tk.Canvas(self, bg=self.canvas_background, width=self.width, height=self.height)
         self.canvas.pack()  # necessarily
@@ -54,6 +56,7 @@ class Create_text(tk.Tk):
         """indexing each sentence in asecnding order"""
         bbox_info = {}
         sentences = sent_tokenize(self.text)
+        sentences = [self.text_title] + sentences
         for index, sentenсe in enumerate(sentences):
         # for index, sentenсe in enumerate(self.text.split(".")):
             if len(sentenсe) == 0:
@@ -64,8 +67,16 @@ class Create_text(tk.Tk):
                 if len(word) == 0:
                     continue
                 # id for specify word
-                sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word + ' ',
-                                                  font=self.font, justify="left", fill="black", anchor="nw")
+
+                if word == self.text_title:
+                    sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word,
+                                                      font=self.title_font, fill="black", anchor="nw")
+
+                else:
+                    sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word + ' ',
+                                                      font=self.font, justify="left", fill="black", anchor="nw")
+
+
                 # if number == len(sentenсe.split(" ")) - 1:
                 #     suffix = '. '  # including suffix '.' as the word area
                 # else:
@@ -88,11 +99,16 @@ class Create_text(tk.Tk):
                 x_right = self.start_position_x + bbox[2] - bbox[0]
                 y_up = bbox[1]
                 y_down = self.start_position_y + bbox[3] - bbox[1]
-                if width + 120 < self.width:
-                    self.start_position_x += bbox[2] - bbox[0]
-                else:
+                if word == self.text_title:
+
                     self.start_position_x = 40
                     self.start_position_y += self.space_size * self.text_size
+                else:
+                    if width + 120 < self.width:
+                        self.start_position_x += bbox[2] - bbox[0]
+                    else:
+                        self.start_position_x = 40
+                        self.start_position_y += self.space_size * self.text_size
                 position = [x_left, x_right, y_up, y_down]
                 positions.append(position)
                 self.word_bbox_info[tuple(position)] = [word, 0, [], {}, index_word]
@@ -219,9 +235,9 @@ class Create_text(tk.Tk):
             self.output.to_csv(path.format(self.participant_id, self.text_id), index=False)
             # display(self.output)
 
-def start_eye_tracking(text, participant_id, current_text_id):
+def start_eye_tracking(text, participant_id, current_text_id, current_text_title):
     eye_tracker = False
-    experiment_screen = Create_text(participant_id, text, current_text_id,
+    experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
                                     points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=True)
 
     if eye_tracker == False:
@@ -238,10 +254,10 @@ def start_eye_tracking(text, participant_id, current_text_id):
                 break
         return experiment_screen.read_time
     else:
-        return eye_tracking(participant_id, text, current_text_id)
+        return eye_tracking(participant_id, text, current_text_id, current_text_title)
 
 
-def eye_tracking(participant_id, text, current_text_id):
+def eye_tracking(participant_id, text, current_text_id, current_text_title):
     ######################################################################################
     # GazepointAPI.py - Example Client
     # Written in 2013 by Gazepoint www.gazept.com
@@ -295,7 +311,7 @@ def eye_tracking(participant_id, text, current_text_id):
     timeSum = 0
     start = 0.0
     end = 0.0
-    experiment_screen = Create_text(participant_id, text, current_text_id,
+    experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
                                     points=True, eye_tracker=True, verbose=True, see_rectangle=False)
     # x_list = []
     # y_list = []
