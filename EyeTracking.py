@@ -71,7 +71,9 @@ class Create_text(tk.Tk):
                 if word == self.text_title:
                     sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word,
                                                       font=self.title_font, fill="black", anchor="nw")
-
+                elif word.strip() == "@@":
+                    sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text='\t\t',
+                                                      font=self.font, justify="left", fill="black", anchor="nw")
                 else:
                     sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word + ' ',
                                                       font=self.font, justify="left", fill="black", anchor="nw")

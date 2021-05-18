@@ -18,6 +18,10 @@ class Controller:
         print("Saved Results", current_text_id, participant_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
         self.data_access.add_participant_records(participant_id, current_text_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
 
+        texts_counter = self.get_current_texts_counter()
+        self.update_current_texts_counter(texts_counter + 1)
+
+
     # Get 4 texts
     # questions = 3 questions
     # answers = 12 answers
@@ -37,7 +41,6 @@ class Controller:
             if texts_counter == CURRENT_NUM_OF_ALL_TEXTS + 1:
                 texts_counter = 1
 
-        self.update_current_texts_counter(texts_counter)
         return texts
 
     def get_current_texts_counter(self):

@@ -686,6 +686,8 @@ class HighlightingFrame(tk.Frame):
 
             # Foreach word in sentence
             for word in words:
+                if word.strip() == "@@":
+                    word = "\t\t"
                 word_btn = tk.Button(self.buttons_frame, text=word, bg=BACKGROUND_COLOR)
                 word_btn.configure(command=lambda btn=word_btn: self.change_color(btn))
                 word_btn.config(highlightthickness=0, borderwidth=0)
