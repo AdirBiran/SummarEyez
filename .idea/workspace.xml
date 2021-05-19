@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="503d7fff-e391-4021-a32d-8b1b1f882b24" name="Default Changelist" comment="fixes">
+    <list default="true" id="503d7fff-e391-4021-a32d-8b1b1f882b24" name="Default Changelist" comment="text's paragraph seperated by tab">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EyeTracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/EyeTracking.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserInterface.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +83,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620736415358</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="text's paragraph seperated by tab">
+      <created>1621333870590</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1621333870590</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -104,6 +108,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="texts reading" />
     <MESSAGE value="fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
+    <MESSAGE value="text's paragraph seperated by tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="text's paragraph seperated by tab" />
   </component>
 </project>

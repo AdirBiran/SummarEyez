@@ -237,6 +237,18 @@ class Create_text(tk.Tk):
             self.output.to_csv(path.format(self.participant_id, self.text_id), index=False)
             # display(self.output)
 
+def fix_coords(x, y):
+
+    if x > 0 and x < 1000:
+        if y < 100:
+            y = y + 30
+        elif y < 300:
+            y = y + 20
+        elif y < 500:
+            y = y + 10
+
+    return x, y
+
 def start_eye_tracking(text, participant_id, current_text_id, current_text_title):
     eye_tracker = False
     experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
@@ -247,6 +259,8 @@ def start_eye_tracking(text, participant_id, current_text_id, current_text_title
             # need to change to specific time or exit button
             x = pyautogui.position().x
             y = pyautogui.position().y
+
+            x, y = fix_coords(x, y)
 
             try:
                 experiment_screen.get_bbox(x, y)
