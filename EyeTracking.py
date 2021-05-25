@@ -250,11 +250,12 @@ def fix_coords(x, y):
     return x, y
 
 def start_eye_tracking(text, participant_id, current_text_id, current_text_title):
-    eye_tracker = False
-    experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
-                                    points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=True)
+    eye_tracker = True
 
     if eye_tracker == False:
+        experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
+                                        points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=True)
+
         while experiment_screen.keep_tracking is True:
             # need to change to specific time or exit button
             x = pyautogui.position().x
@@ -332,7 +333,8 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
     # x_list = []
     # y_list = []
     while experiment_screen.keep_tracking is True:
-        if timeSum >= 0.8 and len(coordinate_list) > 0:
+        """
+        if timeSum >= 0.1 and len(coordinate_list) > 0:
             # print(timeSum)
             # print(coordinate_list)
             xAvg = np.average([float(tpl[0]) for tpl in coordinate_list])
@@ -343,13 +345,14 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
             # print('Std average: '+str(np.average([xStd,yStd])))
 
             std_avarage = np.average([xStd, yStd])
-            if (std_avarage < 0.1):
+            print(std_avarage)
+            if (std_avarage < 0.005):
                 AP.clearCanvas()
                 AP.draw(xAvg, yAvg)
-                experiment_screen.get_bbox(xAvg, yAvg)
-
-            timeSum = 0
-            coordinate_list = []
+                experiment_scen.get_bbox(xAvg, yAvg)
+        """
+        timeSum = 0
+        coordinate_list = []
 
         start = datetime.datetime.now()
         # print(start)
@@ -360,11 +363,14 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
             if ('REC' in el):
                 # print(el)
                 coords = el.split("\"")
+                #coordinate_list.append((coords[3], coords[5]))
                 try:
-                    coordinate_list.append((coords[3], coords[5]))
-                    #experiment_screen.get_bbox(xAvg, yAvg)
+                    experiment_screen.get_bbox(float(coords[3]), float(coords[5]))
+                    AP.clearCanvas()
+                    AP.draw(float(coords[3]), float(coords[5]))
                 except:
                     pass
+
                     # oclidDis = math.sqrt(math.pow(float(coords[3]) - prevX, 2) + math.pow(float(coords[5]) - prevY, 2))
                     # timeThresh = float(coords[1]) - prevT
                     # print(oclidDis)
