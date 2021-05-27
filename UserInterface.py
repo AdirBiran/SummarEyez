@@ -54,6 +54,8 @@ statusbar = ""
 # For controlling opened popups
 opened_popups = []
 
+ranking_closed_illegaly = False
+
 # Initiate texts
 def init_texts():
     global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text, demo, current_text_title
@@ -115,8 +117,9 @@ ranking_var = ""
 
 
 def on_close(win):
-    global opened_ranking_popup
+    global opened_ranking_popup, ranking_closed_illegaly
     opened_ranking_popup = False
+    ranking_closed_illegaly = True
     win.destroy()
 
 
@@ -130,6 +133,7 @@ ranking_dict = {
 def ranking_popup():
     global opened_ranking_popup, ranking_var
     ranking_var = tk.IntVar()
+
     if opened_ranking_popup is False:
         win = tk.Toplevel()
         win.wm_title("Ranking")
@@ -157,6 +161,7 @@ def ranking_popup():
             btn.configure(command=lambda val=i: ranking_var.set(val))
             btn.pack()
             ranking_buttons.append(btn)
+
 
         opened_ranking_popup = True
         btn.wait_variable(ranking_var)
@@ -601,14 +606,11 @@ class TextSummarizationFrame(tk.Frame):
 
     def update_words_counter(self):
         text_summary = self.user_text_summary.get("1.0", 'end-1c')
-        text_split = text_summary.strip().split(" ")
+        text_split = [elem for elem in text_summary.strip().split("\n") if len(elem) > 0]
 
-        if len(text_split) == 1:
-            self.words_count.set(0)
-        else:
-            self.words_count.set(len(text_split))
+        self.words_count.set(len(text_split))
 
-        self.words_count_lbl["text"] = "Words Count:"
+        self.words_count_lbl["text"] = "Sentences Count:"
 
         self.words_count_error["text"] = ""
 
@@ -618,19 +620,17 @@ class TextSummarizationFrame(tk.Frame):
     def next(self):
         global text_summary, timer_text_summarization
         text_summary = self.user_text_summary.get("1.0", 'end-1c')
-        text_split = text_summary.strip().split(" ")
-        if len(text_split) == 1:
-            self.words_count.set(0)
-        else:
-            self.words_count.set(len(text_split))
-        if self.words_count.get() >= 30 and self.words_count.get() <= 60:
+        text_split = [elem for elem in text_summary.strip().split("\n") if len(elem) > 0]
+
+        self.words_count.set(len(text_split))
+        if self.words_count.get() == 3:
             timer_text_summarization = round(time.time() - self.start_time, 1)
             self.words_count_error["text"] = ""
             self.master.switch_frame(HighlightingInstructions)
         else:
             self.words_count.set("")
             self.words_count_lbl["text"] = ""
-            self.words_count_error["text"] = "Summarization is not between 30-60 words"
+            self.words_count_error["text"] = "Summarization is not exactly 3 sentences"
             #self.master.switch_frame(HighlightingInstructions)
 
 
@@ -687,7 +687,7 @@ class HighlightingFrame(tk.Frame):
             # Foreach word in sentence
             for word in words:
                 if word.strip() == "@@":
-                    word = "\t\t"
+                    word = "@@"
                 word_btn = tk.Button(self.buttons_frame, text=word, bg=BACKGROUND_COLOR)
                 word_btn.configure(command=lambda btn=word_btn: self.change_color(btn))
                 word_btn.config(highlightthickness=0, borderwidth=0)
@@ -728,11 +728,14 @@ class HighlightingFrame(tk.Frame):
             self.buttons_mapping[btn_replicate] = cl
 
             # If button fits to same line
-            if current_width + btn_width < frame_width:
+            if current_width + btn_width < frame_width and btn_replicate["text"] != "@@":
                 btn_replicate.pack(side="left")
 
             # Button fits to another line
             else:
+                if btn_replicate["text"] == "@@":
+                    btn_replicate["text"] = ''
+
                 tmp_frame.pack(side="top", anchor="w", pady=3)
                 btn_replicate.pack(side="left")
                 tmp_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
@@ -875,6 +878,7 @@ class HighlightingFrame(tk.Frame):
 
                     val = ranking_popup()
                     ranking_dict[val] = "disabled"
+
 
                     # Changing the button's color
                     for button in buttons_to_change:

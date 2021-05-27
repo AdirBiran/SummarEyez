@@ -15,9 +15,9 @@ class Create_text(tk.Tk):
                  , points=False, verbose=True):
         super().__init__()
         self.text_size = 14
-        self.space_size = 4
+        self.space_size = 2
         self.start_time = time.time()
-        self.config(cursor='circle red')
+        self.config(cursor='none')
         self.participant_id = participant_id
         self.text_id = text_id
         self.text_title = text_title
@@ -72,8 +72,8 @@ class Create_text(tk.Tk):
                     sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word,
                                                       font=self.title_font, fill="black", anchor="nw")
                 elif word.strip() == "@@":
-                    sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text='\t\t',
-                                                      font=self.font, justify="left", fill="black", anchor="nw")
+                    sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text='',
+                                                      font=self.font, fill="black", anchor="nw")
                 else:
                     sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word + ' ',
                                                       font=self.font, justify="left", fill="black", anchor="nw")
@@ -89,8 +89,8 @@ class Create_text(tk.Tk):
 
                 x_left_delta = 0
                 x_right_delta = 0
-                y_up_delta = 17
-                y_down_delta = 17
+                y_up_delta = 3
+                y_down_delta = 3
 
                 bbox = (bbox[0], bbox[1] - y_up_delta, bbox[2], bbox[3] + y_down_delta)
 
@@ -101,7 +101,7 @@ class Create_text(tk.Tk):
                 x_right = self.start_position_x + bbox[2] - bbox[0]
                 y_up = bbox[1]
                 y_down = self.start_position_y + bbox[3] - bbox[1]
-                if word == self.text_title:
+                if word == self.text_title or word == "@@":
 
                     self.start_position_x = 40
                     self.start_position_y += self.space_size * self.text_size
@@ -250,7 +250,7 @@ def fix_coords(x, y):
     return x, y
 
 def start_eye_tracking(text, participant_id, current_text_id, current_text_title):
-    eye_tracker = True
+    eye_tracker = False
 
     if eye_tracker == False:
         experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
@@ -261,7 +261,6 @@ def start_eye_tracking(text, participant_id, current_text_id, current_text_title
             x = pyautogui.position().x
             y = pyautogui.position().y
 
-            x, y = fix_coords(x, y)
 
             try:
                 experiment_screen.get_bbox(x, y)

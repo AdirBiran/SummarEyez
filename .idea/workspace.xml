@@ -3,10 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="503d7fff-e391-4021-a32d-8b1b1f882b24" name="Default Changelist" comment="fix coords">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EyeTracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/EyeTracking.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Results.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Results.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_7.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_7.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_9.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_9.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_7.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_7.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_9.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_9.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/9.json" beforeDir="false" afterPath="$PROJECT_DIR$/Texts/9.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserInterface.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +35,28 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.UserInterface">
+    <configuration name="EyeTracking" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="SummarEyez" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/EyeTracking.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="UserInterface" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="SummarEyez" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -50,6 +81,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.UserInterface" />
+        <item itemvalue="Python.EyeTracking" />
       </list>
     </recent_temporary>
   </component>
@@ -97,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621418984257</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fix coords">
+      <created>1621942110800</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1621942110800</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
