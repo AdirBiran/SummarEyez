@@ -117,10 +117,7 @@ ranking_var = ""
 
 
 def on_close(win):
-    global opened_ranking_popup, ranking_closed_illegaly
-    opened_ranking_popup = False
-    ranking_closed_illegaly = True
-    win.destroy()
+    pass
 
 
 ranking_dict = {
