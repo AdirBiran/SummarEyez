@@ -15,9 +15,9 @@ class Create_text(tk.Tk):
                  , points=False, verbose=True):
         super().__init__()
         self.text_size = 14
-        self.space_size = 2
+        self.space_size = 3
         self.start_time = time.time()
-        self.config(cursor='none')
+        self.config(cursor='')
         self.participant_id = participant_id
         self.text_id = text_id
         self.text_title = text_title
@@ -89,8 +89,8 @@ class Create_text(tk.Tk):
 
                 x_left_delta = 0
                 x_right_delta = 0
-                y_up_delta = 3
-                y_down_delta = 3
+                y_up_delta = 10
+                y_down_delta = 10
 
                 bbox = (bbox[0], bbox[1] - y_up_delta, bbox[2], bbox[3] + y_down_delta)
 
@@ -250,7 +250,7 @@ def fix_coords(x, y):
     return x, y
 
 def start_eye_tracking(text, participant_id, current_text_id, current_text_title):
-    eye_tracker = False
+    eye_tracker = True
 
     if eye_tracker == False:
         experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
