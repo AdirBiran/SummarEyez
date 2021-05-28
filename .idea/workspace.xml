@@ -5,12 +5,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/SummarEyez.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SummarEyez.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EyeTracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/EyeTracking.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Texts/1.json" beforeDir="false" afterPath="$PROJECT_DIR$/Texts/1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserInterface.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +80,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -163,23 +163,5 @@
     <MESSAGE value="fix coords" />
     <MESSAGE value="fix" />
     <option name="LAST_COMMIT_MESSAGE" value="fix" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="1899" height="179" key="GridCell.Tab.0.bottom" timestamp="1622197427551">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1899" height="179" key="GridCell.Tab.0.bottom/1920.26.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1622197427551" />
-    <state width="1899" height="179" key="GridCell.Tab.0.center" timestamp="1622197427551">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1899" height="179" key="GridCell.Tab.0.center/1920.26.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1622197427551" />
-    <state width="1899" height="179" key="GridCell.Tab.0.left" timestamp="1622197427551">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1899" height="179" key="GridCell.Tab.0.left/1920.26.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1622197427551" />
-    <state width="1899" height="179" key="GridCell.Tab.0.right" timestamp="1622197427551">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1899" height="179" key="GridCell.Tab.0.right/1920.26.1366.728/0.0.1920.1040@0.0.1920.1040" timestamp="1622197427551" />
   </component>
 </project>

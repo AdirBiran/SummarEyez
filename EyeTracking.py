@@ -13,6 +13,14 @@ import re
 class Create_text(tk.Tk):
     def __init__(self, participant_id, text, text_id, text_title, eye_tracker=True, see_rectangle=True
                  , points=False, verbose=True):
+
+
+        """
+        System configurations:
+        text_size = 14
+        space_size = 3
+        x, y deltas = 10
+        """
         super().__init__()
         self.text_size = 14
         self.space_size = 3
@@ -71,7 +79,7 @@ class Create_text(tk.Tk):
                 if word == self.text_title:
                     sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word,
                                                       font=self.title_font, fill="black", anchor="nw")
-                elif word.strip() == "@@":
+                elif word.strip() == "@@" or word.strip() == "##":
                     sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text='',
                                                       font=self.font, fill="black", anchor="nw")
                 else:
@@ -93,7 +101,8 @@ class Create_text(tk.Tk):
                 y_down_delta = 10
 
                 bbox = (bbox[0], bbox[1] - y_up_delta, bbox[2], bbox[3] + y_down_delta)
-
+                if word == "@@":
+                    print(bbox)
                 if self.see_rectangle == True:
                     self.canvas.create_rectangle(bbox, outline="black")  # draw word rectangles
                 width = self.start_position_x + bbox[2] - bbox[0] + 5  # calculate word width
@@ -103,8 +112,14 @@ class Create_text(tk.Tk):
                 y_down = self.start_position_y + bbox[3] - bbox[1]
                 if word == self.text_title or word == "@@":
 
-                    self.start_position_x = 40
+                    self.start_position_x = 100
                     self.start_position_y += self.space_size * self.text_size
+                    if word == "@@":
+                        word = ""
+
+                elif word == "##":
+                    self.start_position_x = 100
+                    word = ""
                 else:
                     if width + 120 < self.width:
                         self.start_position_x += bbox[2] - bbox[0]
@@ -250,7 +265,7 @@ def fix_coords(x, y):
     return x, y
 
 def start_eye_tracking(text, participant_id, current_text_id, current_text_title):
-    eye_tracker = True
+    eye_tracker = False
 
     if eye_tracker == False:
         experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,

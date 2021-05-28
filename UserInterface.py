@@ -683,8 +683,8 @@ class HighlightingFrame(tk.Frame):
 
             # Foreach word in sentence
             for word in words:
-                if word.strip() == "@@":
-                    word = "@@"
+
+
                 word_btn = tk.Button(self.buttons_frame, text=word, bg=BACKGROUND_COLOR)
                 word_btn.configure(command=lambda btn=word_btn: self.change_color(btn))
                 word_btn.config(highlightthickness=0, borderwidth=0)
@@ -724,19 +724,26 @@ class HighlightingFrame(tk.Frame):
             del self.buttons_mapping[btn]
             self.buttons_mapping[btn_replicate] = cl
 
+
             # If button fits to same line
             if current_width + btn_width < frame_width and btn_replicate["text"] != "@@":
+                if btn_replicate["text"] == "##":
+                    btn_replicate["text"] = "\t"
                 btn_replicate.pack(side="left")
 
             # Button fits to another line
             else:
                 if btn_replicate["text"] == "@@":
-                    btn_replicate["text"] = ''
+                    btn_replicate["text"] = "\t"
 
                 tmp_frame.pack(side="top", anchor="w", pady=3)
-                btn_replicate.pack(side="left")
                 tmp_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
                 current_width = 0
+
+                btn_replicate = tk.Button(tmp_frame, text=btn_replicate["text"], bg=BACKGROUND_COLOR, font=("David", 13))
+                btn_replicate.configure(command=lambda btn=btn_replicate: self.change_color(btn))
+                btn_replicate.config(highlightthickness=0, borderwidth=0)
+                btn_replicate.pack(side="left")
 
             # Advancing current width
             current_width += btn_width + 4
