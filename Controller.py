@@ -9,9 +9,9 @@ class Controller:
         self.texts_counter = 1
 
     # Add new participant to database
-    def add_new_participant(self, participant_id, first_name, last_name, gender, age):
-        print("New Participant", participant_id, first_name, last_name, gender, age)
-        self.data_access.add_new_participant(participant_id, first_name, last_name, gender, age)
+    def add_new_participant(self, participant_id, first_name, last_name, gender, department, age):
+        print("New Participant", participant_id, first_name, last_name, gender, department, age)
+        self.data_access.add_new_participant(participant_id, first_name, last_name, gender, department, age)
 
     # Save text's results
     def save_text_results(self, current_text_id, participant_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times):

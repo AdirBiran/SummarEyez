@@ -25,3 +25,6 @@ RANKING_COLOR = "#8efb84"
 APP_NAME = "SummarEyes"
 
 CURRENT_NUM_OF_ALL_TEXTS = 10
+
+# Min text reading time in seconds before Next button appear
+MIN_TEXT_READING_TIME = 5

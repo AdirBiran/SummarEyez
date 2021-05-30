@@ -31,7 +31,7 @@ class DataManagement:
                 writer.writerow(list(texts_file_headers))
 
         # Participant file headers
-        participant_file_headers = ['ParticipantID', 'FirstName', 'LastName', 'Gender', 'Age']
+        participant_file_headers = ['ParticipantID', 'FirstName', 'LastName', 'Gender', 'Department', 'Age']
 
         # Create participants file if not exist
         if not os.path.exists(PARTICIPANTS_FILE):

@@ -56,27 +56,35 @@ class Create_text(tk.Tk):
         self.keep_tracking = True
         self.read_time = -1
 
-    def print_text(self):
+    def add_next_btn(self):
         self.button_save = tk.Button(self, text="Next", command=self.quit, font=self.font, anchor="e")
-        self.button_save.place(relx=0.9, rely=0.9)
+        self.button_save.place(relx=0.90, rely=0.90)
+
+    def print_text(self):
+
         index_word = 1
 
         """indexing each sentence in asecnding order"""
         bbox_info = {}
         sentences = sent_tokenize(self.text)
         sentences = [self.text_title] + sentences
-        for index, sentenсe in enumerate(sentences):
+        is_title = False
+
+        for index, sentence in enumerate(sentences):
+            if sentence == self.text_title:
+                is_title = True
+
         # for index, sentenсe in enumerate(self.text.split(".")):
-            if len(sentenсe) == 0:
+            if len(sentence) == 0:
                 continue
-            sentenсe = sentenсe.lstrip()
+            sentence = sentence.lstrip()
             positions = []
-            for number, word in enumerate(sentenсe.split(" ")):
+            for number, word in enumerate(sentence.split(" ")):
                 if len(word) == 0:
                     continue
                 # id for specify word
 
-                if word == self.text_title:
+                if is_title is True:
                     sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word,
                                                       font=self.title_font, fill="black", anchor="nw")
                 elif word.strip() == "@@" or word.strip() == "##":
@@ -101,8 +109,7 @@ class Create_text(tk.Tk):
                 y_down_delta = 10
 
                 bbox = (bbox[0], bbox[1] - y_up_delta, bbox[2], bbox[3] + y_down_delta)
-                if word == "@@":
-                    print(bbox)
+
                 if self.see_rectangle == True:
                     self.canvas.create_rectangle(bbox, outline="black")  # draw word rectangles
                 width = self.start_position_x + bbox[2] - bbox[0] + 5  # calculate word width
@@ -110,27 +117,32 @@ class Create_text(tk.Tk):
                 x_right = self.start_position_x + bbox[2] - bbox[0]
                 y_up = bbox[1]
                 y_down = self.start_position_y + bbox[3] - bbox[1]
-                if word == self.text_title or word == "@@":
 
-                    self.start_position_x = 100
-                    self.start_position_y += self.space_size * self.text_size
-                    if word == "@@":
-                        word = ""
+                if is_title is True:
+                    self.start_position_x += bbox[2] - bbox[0]
 
-                elif word == "##":
-                    self.start_position_x = 100
-                    word = ""
+                    if word == self.text_title.split(" ")[-1]:
+                        self.start_position_x = 100
+                        self.start_position_y += self.space_size * self.text_size
+
+                        is_title = False
+
                 else:
+                    if word == "@@":
+                        self.start_position_x = 100
+                        self.start_position_y += self.space_size * self.text_size
+
                     if width + 120 < self.width:
                         self.start_position_x += bbox[2] - bbox[0]
                     else:
                         self.start_position_x = 40
                         self.start_position_y += self.space_size * self.text_size
+
                 position = [x_left, x_right, y_up, y_down]
                 positions.append(position)
                 self.word_bbox_info[tuple(position)] = [word, 0, [], {}, index_word]
                 index_word += 1
-            bbox_info[index + 1] = [sentenсe, positions, 0, [], {}]
+            bbox_info[index + 1] = [sentence, positions, 0, [], {}]
             """ define for each word in specific sentence her borders coordinates, for example:
                 x1, x2, y1, y2 ['Pulvinar elementum integer enim neque volutpat', 
                 [[1183, 1263, 40, 63], [1263, 1370, 40, 63], [1370, 1439, 40, 63], [1439, 1490, 40, 63],
@@ -184,7 +196,7 @@ class Create_text(tk.Tk):
                     sentence = value[0]
                     positions = value[1]
                     fixations = value[2] + 1
-                    print(sentence)
+
                     # count_fixation_sentence = value[4]
                     if self.previous_fixation != index:
                         self.fixation_number += 1
@@ -271,11 +283,18 @@ def start_eye_tracking(text, participant_id, current_text_id, current_text_title
         experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
                                         points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=True)
 
+        start_reading_time = time.time()
+        flag_added = False
+
         while experiment_screen.keep_tracking is True:
             # need to change to specific time or exit button
             x = pyautogui.position().x
             y = pyautogui.position().y
 
+            delta = round(time.time() - start_reading_time, 2)
+            if delta >= MIN_TEXT_READING_TIME and flag_added is False:
+                experiment_screen.add_next_btn()
+                flag_added = True
 
             try:
                 experiment_screen.get_bbox(x, y)
@@ -346,6 +365,10 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
                                     points=True, eye_tracker=True, verbose=True, see_rectangle=False)
     # x_list = []
     # y_list = []
+
+    start_reading_time = time.time()
+    flag_added = False
+
     while experiment_screen.keep_tracking is True:
         """
         if timeSum >= 0.1 and len(coordinate_list) > 0:
@@ -370,6 +393,13 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
 
         start = datetime.datetime.now()
         # print(start)
+
+        # Add next button after amount of time
+        delta = round(time.time() - start_reading_time, 2)
+        if delta >= MIN_TEXT_READING_TIME and flag_added is False:
+            experiment_screen.add_next_btn()
+            flag_added = True
+
 
         rxdat = s.recv(1024)
         records = bytes.decode(rxdat).split("<")

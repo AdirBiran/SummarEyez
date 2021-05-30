@@ -30,6 +30,7 @@ current_text = ""
 current_text_title = ""
 current_text_questions = []
 current_text_answers = []
+current_text_correct_answers = []
 next_text = 1
 
 # User Results (Per text)
@@ -58,7 +59,7 @@ ranking_closed_illegaly = False
 
 # Initiate texts
 def init_texts():
-    global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text, demo, current_text_title
+    global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text, demo, current_text_title, current_text_correct_answers
     if demo:
         print("demo")
         texts = controller.get_demo_texts()
@@ -72,20 +73,24 @@ def init_texts():
     current_text_answers = [texts[0]["Q1A1"], texts[0]["Q1A2"], texts[0]["Q1A3"], texts[0]["Q1A4"],
                             texts[0]["Q2A1"], texts[0]["Q2A2"], texts[0]["Q2A3"], texts[0]["Q2A4"],
                             texts[0]["Q3A1"], texts[0]["Q3A2"], texts[0]["Q3A3"], texts[0]["Q3A4"]]
+    current_text_correct_answers = [texts[0]["Q1C"], texts[0]["Q2C"], texts[0]["Q3C"]]
     current_text_title = texts[0]["Title"]
 
+    print(current_text_answers)
     next_text = 1
 
 
 # Initiate next text
 def init_next_text():
-    global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text, current_text_title
+    global texts, current_text_id, current_text, current_text_questions, current_text_answers, next_text, current_text_title, current_text_correct_answers
     current_text_id = texts[next_text]["ID"]
     current_text = texts[next_text]["Text"]
     current_text_questions = [texts[next_text]["Q1"], texts[next_text]["Q2"], texts[next_text]["Q3"]]
     current_text_answers = [texts[next_text]["Q1A1"], texts[next_text]["Q1A2"], texts[next_text]["Q1A3"], texts[next_text]["Q1A4"], texts[next_text]["Q2A1"],
                             texts[next_text]["Q2A2"], texts[next_text]["Q2A3"], texts[next_text]["Q2A4"], texts[next_text]["Q3A1"], texts[next_text]["Q3A2"],
                             texts[next_text]["Q3A3"], texts[next_text]["Q3A4"]]
+    current_text_correct_answers = [texts[next_text]["Q1C"], texts[next_text]["Q2C"], texts[next_text]["Q3C"]]
+
     current_text_title = texts[next_text]["Title"]
 
     next_text += 1
@@ -106,11 +111,22 @@ def clear_user_results():
     timer_q2 = 0
     timer_q3 = 0
 
-# Save user resultsF
+# Save user results
 def save_results():
+    global questions_answers
+
+    questions_answers = [int(elem) for elem in questions_answers]
+    questions_answers_final = []
+
+    for i in range(len(questions_answers)):
+        if questions_answers[i] == current_text_correct_answers[i]:
+            questions_answers_final.append(str(questions_answers[i]) + "C")
+        else:
+            questions_answers_final.append(str(questions_answers[i]) + "W")
+
     if not demo:
         times = [timer_text_reading, timer_text_summarization, timer_highlighting, timer_ranking, timer_q1, timer_q2, timer_q3]
-        controller.save_text_results(current_text_id, participant_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
+        controller.save_text_results(current_text_id, participant_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers_final, times)
 
 opened_ranking_popup = False
 ranking_var = ""
@@ -347,7 +363,6 @@ class MainFrame(tk.Frame):
 
     # Starting the app
     def start(self):
-        #init_texts()
         self.master.switch_frame(NewParticipantFrame)
 
 # New Participant frame
@@ -366,6 +381,8 @@ class NewParticipantFrame(tk.Frame):
         self.age_var = tk.StringVar(self)
         self.gender_var = tk.StringVar(self)
         self.gender_var.set("Select")
+        self.department_var = tk.StringVar(self)
+        self.department_var.set("Select")
 
         # Just for tests
         self.id_var.set("123456789")
@@ -373,6 +390,7 @@ class NewParticipantFrame(tk.Frame):
         self.last_name_var.set("Demo")
         self.age_var.set("30")
         self.gender_var.set("Male")
+        self.department_var.set("Software Engineering")
 
         # Sizes
         pad_x, pad_y = 40, 20
@@ -400,20 +418,31 @@ class NewParticipantFrame(tk.Frame):
         tk.Label(inner_frame, text="Gender", font=TEXT_FONT, bg=BACKGROUND_COLOR, justify="left").grid(row=3, column=0, sticky="w")
         gender_menu = tk.OptionMenu(inner_frame, self.gender_var, "Select", "Male", "Female")
         gender_menu.config(font=TEXT_FONT, bg=BACKGROUND_COLOR)
-        menu = self.nametowidget(gender_menu.menuname)
-        menu.config(font=TEXT_FONT)
+        gen_menu = self.nametowidget(gender_menu.menuname)
+        gen_menu.config(font=TEXT_FONT)
         gender_menu.grid(row=3, column=1, padx=pad_x, pady=pad_y)
         self.gender_error = tk.Label(inner_frame, text="", font=TEXT_FONT, fg="red", bg=BACKGROUND_COLOR)
         self.gender_error.grid(row=3, column=2)
 
+        # Department
+        tk.Label(inner_frame, text="Department", font=TEXT_FONT, bg=BACKGROUND_COLOR, justify="left").grid(row=4, column=0, sticky="w")
+        department_menu = tk.OptionMenu(inner_frame, self.department_var, "Select", "Information Systems Engineering", "Software Engineering")
+        department_menu.config(font=TEXT_FONT, bg=BACKGROUND_COLOR)
+        dep_menu = self.nametowidget(department_menu.menuname)
+        dep_menu.config(font=TEXT_FONT)
+        department_menu.grid(row=4, column=1, padx=pad_x, pady=pad_y)
+        self.department_error = tk.Label(inner_frame, text="", font=TEXT_FONT, fg="red", bg=BACKGROUND_COLOR)
+        self.department_error.grid(row=4, column=2)
+
+
         # Age
-        tk.Label(inner_frame, text="Age", font=TEXT_FONT, bg=BACKGROUND_COLOR, justify="left").grid(row=4, column=0, pady=pad_y, sticky="w")
-        tk.Entry(inner_frame, width=entry_width, textvariable=self.age_var, font=TEXT_FONT).grid(row=4, column=1, padx=pad_x, pady=pad_y)
+        tk.Label(inner_frame, text="Age", font=TEXT_FONT, bg=BACKGROUND_COLOR, justify="left").grid(row=5, column=0, pady=pad_y, sticky="w")
+        tk.Entry(inner_frame, width=entry_width, textvariable=self.age_var, font=TEXT_FONT).grid(row=5, column=1, padx=pad_x, pady=pad_y)
         self.age_error = tk.Label(inner_frame, text="", font=TEXT_FONT, fg="red", bg=BACKGROUND_COLOR)
-        self.age_error.grid(row=4, column=2)
+        self.age_error.grid(row=5, column=2)
 
         # Continue Button
-        new_button(inner_frame, "Continue", self.new_participant).grid(row=5, column=1, pady=(pad_y, 100))
+        new_button(inner_frame, "Continue", self.new_participant).grid(row=6, column=1, pady=(pad_y, 100))
 
         inner_frame.pack(anchor="s", side="bottom")
 
@@ -426,12 +455,14 @@ class NewParticipantFrame(tk.Frame):
         self.last_name_error['text'] = ""
         self.gender_error['text'] = ""
         self.age_error['text'] = ""
+        self.department_error['text'] = ""
 
         # Form Inputs
         id = self.id_var.get().strip()
         first_name = self.first_name_var.get().strip()
         last_name = self.last_name_var.get().strip()
         gender = self.gender_var.get().strip()
+        department = self.department_var.get().strip()
         age = self.age_var.get().strip()
 
         valid = True
@@ -459,6 +490,11 @@ class NewParticipantFrame(tk.Frame):
             self.gender_error['text'] = "Gender is not chosen"
             valid = False
 
+        # Department Check
+        if department == "Select":
+            self.department_error['text'] = "Department is not chosen"
+            valid = False
+
         # Age Check
         if age == "":
             self.age_error['text'] = "Age is empty"
@@ -471,7 +507,7 @@ class NewParticipantFrame(tk.Frame):
         if valid:
             global participant_id
             participant_id = id
-            controller.add_new_participant(id, first_name, last_name, gender, age)
+            controller.add_new_participant(id, first_name, last_name, gender, department, age)
             self.master.switch_frame(DemoExperimentFrame)
 
 # Demo / Experiment Frame
@@ -620,14 +656,14 @@ class TextSummarizationFrame(tk.Frame):
         text_split = [elem for elem in text_summary.strip().split("\n") if len(elem) > 0]
 
         self.words_count.set(len(text_split))
-        if self.words_count.get() == 3:
+        if self.words_count.get() >= 3 and self.words_count.get() <= 5:
             timer_text_summarization = round(time.time() - self.start_time, 1)
             self.words_count_error["text"] = ""
             self.master.switch_frame(HighlightingInstructions)
         else:
             self.words_count.set("")
             self.words_count_lbl["text"] = ""
-            self.words_count_error["text"] = "Summarization is not exactly 3 sentences"
+            self.words_count_error["text"] = "Summarization is not between 3 and 5 sentences"
             #self.master.switch_frame(HighlightingInstructions)
 
 
@@ -684,7 +720,6 @@ class HighlightingFrame(tk.Frame):
             # Foreach word in sentence
             for word in words:
 
-
                 word_btn = tk.Button(self.buttons_frame, text=word, bg=BACKGROUND_COLOR)
                 word_btn.configure(command=lambda btn=word_btn: self.change_color(btn))
                 word_btn.config(highlightthickness=0, borderwidth=0)
@@ -704,6 +739,8 @@ class HighlightingFrame(tk.Frame):
         # Temp frame for each set of buttons
         tmp_frame = tk.Frame(self, bg=BACKGROUND_COLOR)
 
+        i = 0
+
         # Foreach button (word)
         for btn in self.buttons:
 
@@ -719,16 +756,14 @@ class HighlightingFrame(tk.Frame):
             btn_replicate.configure(command=lambda btn=btn_replicate: self.change_color(btn))
             btn_replicate.config(highlightthickness=0, borderwidth=0)
 
-            # Update data structures
-            cl = self.buttons_mapping[btn]
-            del self.buttons_mapping[btn]
-            self.buttons_mapping[btn_replicate] = cl
 
+
+            if i == 0:
+                btn_replicate["text"] = "\t" + btn_replicate["text"]
+                i = -1
 
             # If button fits to same line
             if current_width + btn_width < frame_width and btn_replicate["text"] != "@@":
-                if btn_replicate["text"] == "##":
-                    btn_replicate["text"] = "\t"
                 btn_replicate.pack(side="left")
 
             # Button fits to another line
@@ -741,9 +776,14 @@ class HighlightingFrame(tk.Frame):
                 current_width = 0
 
                 btn_replicate = tk.Button(tmp_frame, text=btn_replicate["text"], bg=BACKGROUND_COLOR, font=("David", 13))
-                btn_replicate.configure(command=lambda btn=btn_replicate: self.change_color(btn))
+                btn_replicate.configure(command=lambda btn_passed=btn_replicate: self.change_color(btn_passed))
                 btn_replicate.config(highlightthickness=0, borderwidth=0)
                 btn_replicate.pack(side="left")
+
+            # Update data structures
+            cl = self.buttons_mapping[btn]
+            del self.buttons_mapping[btn]
+            self.buttons_mapping[btn_replicate] = cl
 
             # Advancing current width
             current_width += btn_width + 4
@@ -775,6 +815,10 @@ class HighlightingFrame(tk.Frame):
             error_popup("Please highlight exactly 5 sentences")
         else:
 
+            global timer_highlighting, timer_ranking
+            timer_highlighting = round(time.time() - self.start_time, 1)
+            timer_ranking = time.time()
+
             self.title["text"] = "Ranking"
 
             buttons = [btn for btn in self.buttons_mapping]
@@ -787,8 +831,8 @@ class HighlightingFrame(tk.Frame):
     # Next button
     def next(self):
 
-        global timer_highlighting, highlighted_sentences, highlighted_sentences_scores
-        timer_highlighting = round(time.time() - self.start_time, 1)
+        global timer_ranking, highlighted_sentences, highlighted_sentences_scores
+        timer_ranking = round(time.time() - timer_ranking, 1)
         flag_continue = True
         buttons = [btn for btn in self.buttons_mapping]
         existed_clusters = []
@@ -945,6 +989,8 @@ class QuestionsFrame(tk.Frame):
         # Questions string vars
         self.q_var = tk.StringVar(self.inner_frame, 0)
 
+        print(q_answers[current_q_number])
+
         # Just for tests
         #self.q_var.set(2)
 
@@ -1026,7 +1072,7 @@ class QuestionsFrame(tk.Frame):
         #self.q_var.set("2")
 
         for counter in range(len(self.radio_buttons)):
-            self.radio_buttons[counter]["text"] = current_text_answers[counter]
+            self.radio_buttons[counter]["text"] = current_text_answers[counter + (4 * (self.question_num - 1))]
 
         self.title["text"] = "Question " + str(self.question_num)
 
