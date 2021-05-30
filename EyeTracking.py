@@ -123,7 +123,7 @@ class Create_text(tk.Tk):
 
                     if word == self.text_title.split(" ")[-1]:
                         self.start_position_x = 100
-                        self.start_position_y += self.space_size * self.text_size
+                        self.start_position_y += 1.5 * self.space_size * self.text_size
 
                         is_title = False
 

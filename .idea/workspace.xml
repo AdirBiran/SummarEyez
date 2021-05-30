@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="503d7fff-e391-4021-a32d-8b1b1f882b24" name="Default Changelist" comment="fix">
-      <change afterPath="$PROJECT_DIR$/todo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataManagement.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EyeTracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/EyeTracking.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results/123456789/Results.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Results.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_3.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_3.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_3.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_3.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/1.json" beforeDir="false" afterPath="$PROJECT_DIR$/Texts/1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserInterface.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622200423090</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="fix">
+      <created>1622370507287</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1622370507287</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
