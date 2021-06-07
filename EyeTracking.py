@@ -67,6 +67,7 @@ class Create_text(tk.Tk):
         """indexing each sentence in asecnding order"""
         bbox_info = {}
         sentences = sent_tokenize(self.text)
+
         sentences = [self.text_title] + sentences
         is_title = False
 

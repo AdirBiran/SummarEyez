@@ -15,6 +15,8 @@ TITLE_FONT_STYLE = ("David", 28, "bold")
 SUBTITLE_FONT_STYLE = ("David", 24, "bold")
 TEXT_FONT = ("David", 20)
 TEXT_FONT_BOLD = ("David", 20, "bold")
+QUESTION_TEXT_FONT = ("David", 18)
+QUESTION_TEXT_FONT_BOLD = ("David", 18, "bold")
 STATUSBAR_FONT = ("David", 16)
 BUTTON_FONT_STYLE = ("David", 20, "bold")
 TITLE_FONT_COLOR = 'DarkBlue'
@@ -76,7 +78,6 @@ def init_texts():
     current_text_correct_answers = [texts[0]["Q1C"], texts[0]["Q2C"], texts[0]["Q3C"]]
     current_text_title = texts[0]["Title"]
 
-    print(current_text_answers)
     next_text = 1
 
 
@@ -983,26 +984,24 @@ class QuestionsFrame(tk.Frame):
         self.radio_buttons = []
 
         # Questions labels
-        self.question_lbl = tk.Label(self.q_frame, text=question, bg=BACKGROUND_COLOR, font=TEXT_FONT_BOLD)
+        self.question_lbl = tk.Label(self.q_frame, text=question, bg=BACKGROUND_COLOR, font=QUESTION_TEXT_FONT_BOLD)
         self.question_lbl.grid(row=1, column=0, pady=(50, 20))
 
         # Questions string vars
         self.q_var = tk.StringVar(self.inner_frame, 0)
-
-        print(q_answers[current_q_number])
 
         # Just for tests
         #self.q_var.set(2)
 
         # Q Answers
         for i in range(4):
-            radio_btn = tk.Radiobutton(self.q_frame, text=q_answers[current_q_number], value=i + 1, bg=BACKGROUND_COLOR, variable=self.q_var, font=TEXT_FONT)
+            radio_btn = tk.Radiobutton(self.q_frame, text=q_answers[current_q_number], value=i + 1, bg=BACKGROUND_COLOR, variable=self.q_var, font=QUESTION_TEXT_FONT)
             current_q_number += 1
             self.radio_buttons.append(radio_btn)
             radio_btn.grid(row=i + 2, column=0, sticky="w", pady=20)
 
         # Q Error
-        self.q_error = tk.Label(self.inner_frame, text="", fg="red", bg=BACKGROUND_COLOR, font=TEXT_FONT)
+        self.q_error = tk.Label(self.inner_frame, text="", fg="red", bg=BACKGROUND_COLOR, font=QUESTION_TEXT_FONT)
         self.q_error.grid(row=6, column=0)
 
         self.q_frame.grid(row=0, column=0, padx=50)
