@@ -27,7 +27,11 @@ class Controller:
     def get_texts(self):
 
         user_counter = self.get_current_users_counter()
-        user_texts_indexes = [user_counter, user_counter + 20, user_counter + 40, user_counter + 60]
+        user_counter_fixed = user_counter
+        while user_counter_fixed > 20:
+            user_counter_fixed = user_counter_fixed - 20
+
+        user_texts_indexes = [user_counter_fixed, user_counter_fixed + 20, user_counter_fixed + 40, user_counter_fixed + 60]
 
         texts = []
         for text_idx in user_texts_indexes:
@@ -36,7 +40,6 @@ class Controller:
                 data = json.load(f)
                 data["ID"] = text_idx
                 texts.append(data)
-
         self.update_current_users_counter(user_counter + 1)
 
         return texts
