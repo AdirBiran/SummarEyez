@@ -18,8 +18,6 @@ class Controller:
         print("Saved Results", current_text_id, participant_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
         self.data_access.add_participant_records(participant_id, current_text_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
 
-        texts_counter = self.get_current_texts_counter()
-        self.update_current_texts_counter(texts_counter + 1)
 
 
     # Get 4 texts
@@ -28,29 +26,29 @@ class Controller:
     # [ [text_id, text, [questions], [answers]], [text_id, text, [questions], [answers]], [text_id, text, [questions], [answers]] ]
     def get_texts(self):
 
-        texts_counter = self.get_current_texts_counter()
+        user_counter = self.get_current_users_counter()
+        user_texts_indexes = [user_counter, user_counter + 20, user_counter + 40, user_counter + 60]
 
         texts = []
-        for i in range(4):
-            text_path = os.path.join(TEXTS_PATH, str(texts_counter) + ".json")
+        for text_idx in user_texts_indexes:
+            text_path = os.path.join(TEXTS_PATH, str(text_idx), str(text_idx) + ".json")
             with open(text_path) as f:
                 data = json.load(f)
+                data["ID"] = text_idx
                 texts.append(data)
-                texts_counter += 1
 
-            if texts_counter == CURRENT_NUM_OF_ALL_TEXTS + 1:
-                texts_counter = 1
+        self.update_current_users_counter(user_counter + 1)
 
         return texts
 
-    def get_current_texts_counter(self):
+    def get_current_users_counter(self):
         with open(CONFIG_FILE) as f:
             data = json.load(f)
-            return data["Texts_Counter"]
+            return data["Current_User"]
 
-    def update_current_texts_counter(self, new_texts_counter):
+    def update_current_users_counter(self, new_texts_counter):
 
-        config_dict = {"Texts_Counter": new_texts_counter}
+        config_dict = {"Current_User": new_texts_counter}
 
         with open(CONFIG_FILE, 'w') as f:
             json.dump(config_dict, f)

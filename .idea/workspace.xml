@@ -3,7 +3,57 @@
   <component name="ChangeListManager">
     <list default="true" id="503d7fff-e391-4021-a32d-8b1b1f882b24" name="Default Changelist" comment="fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EyeTracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/EyeTracking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_3.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_3.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_3.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_3.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Results/123456789/Words/123456789_5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/10.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/3.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/4.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/5.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/6.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/7.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/8.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/9.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text1/1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text1/Q1.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text1/Q1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text1/Text1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text10/Text10.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text10/Verapamil- A drug that eases the heart's workload - d075b_AP900322-0112.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text2/Andrei D. Sakharov - d082a_LA121589-0192.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text2/Text2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text3/Clarence Thomas - d074b_SJMN91-06255434.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text3/Text3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text4/Indiana senator  Dan Quayle's family life - d065j_AP880817-0040.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text4/Text4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text5/McDonald's South Korea - d064j_WSJ880412-0015.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text5/Text5.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text6/Prime Minister Margaret Thatcher - d076b_AP891106-0072.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text6/Text6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text6/Text6_fixed.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text7/Sam Walton richest man in Bentonville -  d066j_AP890711-0223.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text7/Text7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text8/Strike at the mining industry - d081a_WSJ870804-0095.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text8/Text8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text9/Terrorist attack at the royal marines music school - d063j_AP890923-0091.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Archive/Text9/Text9.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Template.json" beforeDir="false" afterPath="$PROJECT_DIR$/Texts/Template.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Text11.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Text12" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Text13" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Text14" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Text15" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/file17.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/file18.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserInterface.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +198,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622370507287</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fix">
+      <created>1622371079265</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1622371079265</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

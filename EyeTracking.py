@@ -30,7 +30,7 @@ class Create_text(tk.Tk):
         self.text_id = text_id
         self.text_title = text_title
         self.text = text
-        self.see_rectangle = True
+        self.see_rectangle = see_rectangle
         self.points = points
         self.verbose = verbose
         self.title("SummerEyes")
@@ -38,7 +38,7 @@ class Create_text(tk.Tk):
         self.height = self.winfo_screenheight()  # get display height
         self.attributes('-fullscreen', True)
         self.font = ("helvetica", self.text_size)  # font
-        self.title_font = ("helvetica", self.text_size, "bold", "underline")  # font
+        self.title_font = ("helvetica", self.text_size, "bold")  # font
         self.canvas_background = "white"  # background color
         self.canvas = tk.Canvas(self, bg=self.canvas_background, width=self.width, height=self.height)
         self.canvas.pack()  # necessarily
@@ -85,7 +85,7 @@ class Create_text(tk.Tk):
                 # id for specify word
 
                 if is_title is True:
-                    sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word,
+                    sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text=word + ' ',
                                                       font=self.title_font, fill="black", anchor="nw")
                 elif word.strip() == "@@" or word.strip() == "##":
                     sent_id = self.canvas.create_text(self.start_position_x, self.start_position_y, text='',
@@ -362,7 +362,7 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
     start = 0.0
     end = 0.0
     experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
-                                    points=True, eye_tracker=True, verbose=True, see_rectangle=False)
+                                    points=True, eye_tracker=True, verbose=True, see_rectangle=True)
     # x_list = []
     # y_list = []
 

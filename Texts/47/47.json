@@ -1,0 +1,25 @@
+{
+  "Title": "Patrick E. Purdy: The Life of a Criminal Murderer",
+  "Text": "The 26-year-old wanderer with a long criminal record who launched a mute, murderous assault on a California elementary school Tuesday was described by his aunt as a loner and childhood alcoholic, police said. Patrick E. Purdy purchased an AK-47 rifle in this Portland suburb several months ago, then returned to his hometown of Stockton, Calif., where he used the gun to kill five children and wound 29 others, along with a teacher, at Cleveland Elementary School before taking his own life, authorities said. @@ Purdy, who went by the alias of Patrick West, had lived with an aunt and uncle in Sandy from the first of July until late October, said Sandy Police Chief Fred Punzel. He later moved to Lodi, Calif., where he listed his mailing address under the name of his grandmother, Julia Chumbley, although he did not live with her, authorities said. ``I'm shocked. It's just horrible. I don't understand why and I probably won't ever know why,'' said Ms. Chumbley, a 63-year-old retired cannery worker. ``It troubles me to think that such a terrible thing can happen. It's like a nightmare. This sort of thing happens to others, not you. Your own grandson.'' Stockton is about 15 miles southwest of Lodi. Punzel said Purdy's aunt, Julie Michael, ``told me he was a loner and as a child he was an alcoholic.'' Mrs. Michael said through a closed front door at her residence that she was too upset to talk to reporters. Her next-door neighbor, Pat Thomas, 45, said she met West when he lived with his relatives last summer. ``He seemed like a real nice young man,'' she said. ``He was here looking for work.'' @@ However, Purdy had an ``extensive criminal history,'' mostly in the Los Angeles area, said Lucian Neely, deputy police chief in Stockton, an agricultural city 60 miles east of San Francisco. Purdy had no criminal record in Sandy, Clackamas County or Portland, authorities said. Neely said Purdy originally was from Stockton and that he had purchased the gun at the Sandy Trading Post Aug. 3. Punzel said Mrs. Michael told him Purdy left Oregon for a job as a boilermaker in Texas. That job fell through and he went to Memphis, Tenn. The aunt and uncle last heard from Purdy at Thanksgiving, when he was in Connecticut, Punzel said. His mother lives in Sacramento, Calif., and his father was killed in 1980 or 1981 when he was struck by a car as a pedestrian, Punzel said. State Division of Motor Vehicles records identify Purdy as 5-foot-11, 150 pounds, with blue eyes and blond hair, said spokesman Dave Davis.",
+
+  "Q1": "The crime described in the text is about:",
+  "Q1A1": "Robbing a bank ",
+  "Q1A2": "Kidnapping the daughter of a famous politician.",
+  "Q1A3": "Killing and wounding children using a rifle.",
+  "Q1A4": "Stealing a lot of money from old people. ",
+  "Q1C": 3,
+  
+  "Q2": "How is the criminal Purdy described in the text?",
+  "Q2A1": "A private Chef in a fancy restaurant.",
+  "Q2A2": "A person who had an extensive criminal history.",
+  "Q2A3": "A religious person who likes to help others.",
+  "Q2A4": "A famous NBA player.",
+  "Q2C": 2,
+  
+  "Q3": "Where did the crime take place?",
+  "Q3A1": "Inside the “Bank of America” in Boston",
+  "Q3A2": "Inside the apartment of old couple.",
+  "Q3A3": "At the France embassy in New York.",
+  "Q3A4": "At elementary school in California",
+  "Q3C": 4
+}

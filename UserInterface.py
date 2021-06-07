@@ -578,8 +578,8 @@ class TextReadingInstructions(tk.Frame):
         global timer_text_reading
         self.master.switch_frame(TextSummarizationInstructions)
 
-        global statusbar, next_text, current_text_title
-        statusbar["text"] = "Text " + str(next_text) + "/4: " + current_text_title
+        global statusbar, current_text_title, current_text_id
+        statusbar["text"] = "Text: " + str(current_text_id) + ", " + current_text_title
 
         timer_text_reading = start_eye_tracking(current_text, participant_id, current_text_id, current_text_title)
 
