@@ -19,7 +19,6 @@ class Controller:
         self.data_access.add_participant_records(participant_id, current_text_id, highlighted_sentences, highlighted_sentences_scores, text_summary, questions_answers, times)
 
 
-
     # Get 4 texts
     # questions = 3 questions
     # answers = 12 answers
@@ -40,6 +39,7 @@ class Controller:
                 data = json.load(f)
                 data["ID"] = text_idx
                 texts.append(data)
+
         self.update_current_users_counter(user_counter + 1)
 
         return texts
