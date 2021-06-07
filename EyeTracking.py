@@ -9,6 +9,7 @@ import datetime
 from nltk.tokenize import sent_tokenize
 import string
 import re
+from collections import Counter
 
 class Create_text(tk.Tk):
     def __init__(self, participant_id, text, text_id, text_title, eye_tracker=True, see_rectangle=True
@@ -29,6 +30,8 @@ class Create_text(tk.Tk):
         self.participant_id = participant_id
         self.text_id = text_id
         self.text_title = text_title
+        if self.text_title[-1] == " ":
+            self.text_title = self.text_title[0:len(self.text_title) - 1]
         self.text = text
         self.see_rectangle = see_rectangle
         self.points = points
@@ -67,7 +70,6 @@ class Create_text(tk.Tk):
         """indexing each sentence in asecnding order"""
         bbox_info = {}
         sentences = sent_tokenize(self.text)
-
         sentences = [self.text_title] + sentences
         is_title = False
 
@@ -173,16 +175,25 @@ class Create_text(tk.Tk):
         self.keep_tracking = False
         self.destroy()
 
+    def from_relat_to_abs(self, x, y):
+        x = (x * self.width)
+        y = (y * self.height)
+        return x,y
+
     def get_bbox(self, x, y):
-        if self.eye_tracker == True:
+        # if self.eye_tracker == True:
             # pass
-            x = (x * self.width)
-            y = (y * self.height)
+            # x = (x * self.width)
+            # y = (y * self.height)
             # print(x)
             # print(y)
+
+        if x is None or y is None:
+            return
+
         if self.points == True:
-            # pass
-            self.draw_point(x, y)
+            pass
+            # self.draw_point(x, y)
         for key, value in self.bbox_info.items():
             positions = value[1]
             for i, position in enumerate(positions):
@@ -251,6 +262,7 @@ class Create_text(tk.Tk):
         self.output = pd.DataFrame([(a, b[0], b[3], b[4], b[4], b[2]) for a, b in self.bbox_info.items()],
                                    columns=['index', 'sentence', 'fixation_order', 'samples_duration_in_fixations',
                                             'total_fixations', 'total_duration_samples_in_fixation'])
+        print(self.bbox_info)
         self.output['count_words'] = self.output['sentence'].apply(lambda x: len(re.findall(r'\w+', x)))
         self.output['normalized_sentence_by_count_words'] = self.output['total_duration_samples_in_fixation'] / \
                                                             self.output['count_words']
@@ -277,12 +289,57 @@ def fix_coords(x, y):
 
     return x, y
 
+class Fixer():
+    def __init__(self):
+        self.min_distance=80 #search radius for lines
+        self.previous_counts=100 #number of previous lines
+        self.line_positions={1:50,2:115, 3:155, 4:200, 5:240, 6:285, 7:325, 8:368, 9:409, 10:453, 11:494, 12:538,
+                             13:578, 14:620, 15:660, 16:700, 17:745, 18:785,19:830, 20:870, 21:910, 22:950, 23:990, 24:1030}
+        self.previous_lines=[]
+
+    def search_nearest(self,y):
+
+        # y=100
+        min_val = 99999999999999
+        current_key = -1
+
+        for a,b in self.line_positions.items():
+            dist = abs(y - b)
+            if dist < min_val:
+                min_val = dist
+                current_key = a
+            else:
+                break
+        if min_val > self.min_distance:
+            self.previous_lines.append(0)
+        else:
+            self.previous_lines.append(current_key)
+        self.previous_lines = self.previous_lines[-self.previous_counts:]
+        # r = {i[0]: abs(y - i[1]) for i in self.line_positions.items()}
+        # r = dict(sorted(r.items(), key=lambda item: item[1]))
+        # line = list(r.keys())[0]
+        # distance = r[line]
+        # if distance > self.min_distance:
+        #     self.previous_lines.append(0)
+        # else:
+        #     self.previous_lines.append(line)
+
+
+    def fix(self,y):
+        self.search_nearest(y)
+        if len(self.previous_lines)>=self.previous_counts:
+            most_common_line = Counter(self.previous_lines).most_common(1)[0][0]
+            new_y=self.line_positions[most_common_line]
+            return new_y
+
+
+
 def start_eye_tracking(text, participant_id, current_text_id, current_text_title):
-    eye_tracker = False
+    eye_tracker = True
 
     if eye_tracker == False:
         experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
-                                        points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=True)
+                                        points=True, eye_tracker=eye_tracker, verbose=True, see_rectangle=False)
 
         start_reading_time = time.time()
         flag_added = False
@@ -291,6 +348,8 @@ def start_eye_tracking(text, participant_id, current_text_id, current_text_title
             # need to change to specific time or exit button
             x = pyautogui.position().x
             y = pyautogui.position().y
+
+            # print(y)
 
             delta = round(time.time() - start_reading_time, 2)
             if delta >= MIN_TEXT_READING_TIME and flag_added is False:
@@ -362,8 +421,9 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
     timeSum = 0
     start = 0.0
     end = 0.0
+    fixer=Fixer()
     experiment_screen = Create_text(participant_id, text, current_text_id, current_text_title,
-                                    points=True, eye_tracker=True, verbose=True, see_rectangle=True)
+                                    points=True, eye_tracker=True, verbose=True, see_rectangle=False)
     # x_list = []
     # y_list = []
 
@@ -406,23 +466,33 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
         records = bytes.decode(rxdat).split("<")
         for el in records:
             if ('REC' in el):
-                # print(el)
-                coords = el.split("\"")
-                #coordinate_list.append((coords[3], coords[5]))
                 try:
-                    experiment_screen.get_bbox(float(coords[3]), float(coords[5]))
-                    AP.clearCanvas()
-                    AP.draw(float(coords[3]), float(coords[5]))
-                except:
-                    pass
+                    coords = el.split("\"")
+                    if len(coords) > 5:
+                        #coordinate_list.append((coords[3], coords[5]))
+                        x = float(coords[3])
+                        y = float(coords[5])
+                        x_abs, y_abs = experiment_screen.from_relat_to_abs(x, y)
+                        y_fix = fixer.fix(y_abs)
+                        # print(y_abs)
+                        experiment_screen.get_bbox(x_abs, y_fix)
 
-                    # oclidDis = math.sqrt(math.pow(float(coords[3]) - prevX, 2) + math.pow(float(coords[5]) - prevY, 2))
-                    # timeThresh = float(coords[1]) - prevT
-                    # print(oclidDis)
-                    # print(coords[1])
-                    # if  abs(prevX - float(coords[3])) > 0.01 and abs(prevY - float(coords[5]) > 0.01):
-                    # print("TIME: " + coords[1] + " X:" + coords[3] + "  Y:" + coords[5])
-                    # if oclidDis > 0.5:
+                        AP.clearCanvas()
+                        AP.draw(x_abs, y_fix)
+                        # except Exception as e:
+                        # print(e)
+
+                            # oclidDis = math.sqrt(math.pow(float(coords[3]) - prevX, 2) + math.pow(float(coords[5]) - prevY, 2))
+                            # timeThresh = float(coords[1]) - prevT
+                            # print(oclidDis)
+                            # print(coords[1])
+                            # if  abs(prevX - float(coords[3])) > 0.01 and abs(prevY - float(coords[5]) > 0.01):
+                            # print("TIME: " + coords[1] + " X:" + coords[3] + "  Y:" + coords[5])
+                            # if oclidDis > 0.5:
+
+                except Exception as e:
+                    print(e)
+
         end = datetime.datetime.now()
         timeSum += (end - start).total_seconds()
 

@@ -25,10 +25,11 @@ class pointGUI:
 
 
     def draw(self,x,y):
-        x = (x*self.width)
-        y = (y*self.height)
-        self.point( x, y)
-        self.root.update()
+        # x = (x*self.width)
+        # y = (y*self.height)
+        if x is not None and y is not None:
+            self.point( x, y)
+            self.root.update()
         # self.root.mainloop()
 
     def clearCanvas(self):
