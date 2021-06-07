@@ -3,9 +3,35 @@
   <component name="ChangeListManager">
     <list default="true" id="503d7fff-e391-4021-a32d-8b1b1f882b24" name="Default Changelist" comment="fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Texts/59/59.json" beforeDir="false" afterPath="$PROJECT_DIR$/Texts/59/59.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataManagement.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Participants/ParticipantsDetails.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/1/Results.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Results.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_100.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_25.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_4.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_5.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_7.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Sentences/123456789_9.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_100.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_25.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_4.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_5.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_7.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/123456789/Words/123456789_9.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/Texts.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Texts/demo.json" beforeDir="false" afterPath="$PROJECT_DIR$/Texts/demo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserInterface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/todo" beforeDir="false" afterPath="$PROJECT_DIR$/todo" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +190,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623055265783</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fix">
+      <created>1623056129385</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1623056129385</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

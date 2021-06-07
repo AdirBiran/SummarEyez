@@ -277,7 +277,7 @@ class TextSummarizationApp(tk.Tk):
 
         # Menu bar
         menu_bar = tk.Menu(self)
-        menu_bar.add_command(label="Main", command=lambda: self.switch_frame(MainFrame))
+        #menu_bar.add_command(label="Main", command=lambda: self.switch_frame(MainFrame))
         menu_bar.add_command(label="Instructions", command=self.popup_instructions)
         menu_bar.add_command(label="Contact", command=self.popup_contact)
         menu_bar.add_command(label="About", command=self.popup_about)
@@ -295,9 +295,9 @@ class TextSummarizationApp(tk.Tk):
     def popup_instructions(self):
         instructions_string = "This experiment contains 5 stages:\n\n" \
                               "1.\tText Reading - Reading a short text in English\n\n" \
-                              "2.\tText Summarization - Summarize the text in own words\n\n" \
-                              "3.\tHighlighting - Highlight important sentences in the text\n\n" \
-                              "4.\tRanking - Rank the highlighted sentences from the text\n\n" \
+                              "2.\tText Summarization - Summarize the text in own words,between 3-5 sentences seperated by new line\n\n" \
+                              "3.\tHighlighting - Highlight 5 important sentences in the text\n\n" \
+                              "4.\tRanking - Rank the 5 highlighted sentences from the text\n\n" \
                               "5.\tQuestions - Answer 3 multiple choice questions for each text\n\n\n\n" \
                               "There are 4 texts total.\n\n" \
                               "The 5 stages must be repeated for each text."
@@ -567,7 +567,7 @@ class TextReadingInstructions(tk.Frame):
 
         new_title(self, "Text Reading Instructions")
 
-        instructions = "In this step, you will have to read a short text."
+        instructions = "In this step, you will have to read a short text.\n\nThis step has a minimum time of " + str(int(MIN_TEXT_READING_TIME/60)) + " minutes.\n\nBy the end of the time the Next button will appear on the bottom-left side."
 
         tk.Label(self, text=instructions, bg=BACKGROUND_COLOR, font=TEXT_FONT).pack(pady=100)
         new_button(self, "Click here to continue", self.start_reading_text).pack()
@@ -591,7 +591,7 @@ class TextSummarizationInstructions(tk.Frame):
 
         new_title(self, "Text Summarizing Instructions")
 
-        instructions = "In this step, you will have to summarize the text you read in the last step."
+        instructions = "In this step, you will have to summarize the text you read in the last step in your own words.\n\nThe summarization length's is between 3-5 sentences, seperated by new line (Enter)."
 
         tk.Label(self, text=instructions, bg=BACKGROUND_COLOR, font=TEXT_FONT).pack(pady=100)
         new_button(self, "Click here to continue", lambda: self.master.switch_frame(TextSummarizationFrame)).pack()
@@ -675,7 +675,7 @@ class HighlightingInstructions(tk.Frame):
 
         new_title(self, "Highlighting Instructions")
 
-        instructions = "In this step, you will have to highlight important sentences from the text."
+        instructions = "In this step, you will have to highlight the 5 most important sentences from the text.\n\nThen you have to rank the highlighted sentences between 1-5."
 
         tk.Label(self, text=instructions, bg=BACKGROUND_COLOR, font=TEXT_FONT).pack(pady=100)
         new_button(self, "Click here to continue", lambda: self.master.switch_frame(HighlightingFrame)).pack()

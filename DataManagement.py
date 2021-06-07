@@ -13,22 +13,9 @@ class DataManagement:
         if not os.path.exists(TEXTS_PATH):
             os.mkdir(TEXTS_PATH)
 
-        # Create Resources Directory
-        if not os.path.exists(RESOURCES_PATH):
-            os.mkdir(RESOURCES_PATH)
-
         # Create Results Directory
         if not os.path.exists(RESULTS_MAIN_PATH):
             os.mkdir(RESULTS_MAIN_PATH)
-
-        # Texts file headers
-        texts_file_headers = ['TextID', 'Title', 'Text']
-
-        # Create texts file if not exist
-        if not os.path.exists(TEXTS_FILE):
-            with open(TEXTS_FILE, 'a', newline='') as fd:
-                writer = csv.writer(fd)
-                writer.writerow(list(texts_file_headers))
 
         # Participant file headers
         participant_file_headers = ['ParticipantID', 'FirstName', 'LastName', 'Gender', 'Department', 'Age']
@@ -75,14 +62,3 @@ class DataManagement:
         with open(os.path.join(RESULTS_MAIN_PATH, str(participant_id), "Results.csv"), 'a', newline='') as fd:
             writer = csv.writer(fd)
             writer.writerow(records)
-
-    # Adds new text
-    def add_text(self, title, text):
-        with open(TEXTS_FILE, 'r', newline='') as fd:
-            reader = csv.reader(fd);
-            row_count = sum([1 for row in reader])
-
-        with open(TEXTS_FILE, 'a', newline='') as fd:
-            writer = csv.writer(fd)
-            writer.writerow([row_count, title, text])
-
