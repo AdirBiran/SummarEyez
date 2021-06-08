@@ -2,10 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="503d7fff-e391-4021-a32d-8b1b1f882b24" name="Default Changelist" comment="fix">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Results/312330418/Sentences/312330418_21.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Results/312330418/Words/312330418_21.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SummarEyez.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SummarEyez.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EyeTracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/EyeTracking.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserInterface.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pointGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/pointGUI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,12 +29,17 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_MARK_IGNORED_FILES_AS_EXCLUDED" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Results/312330418/Words" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\adir\Desktop\SummarEyez\Results\312330418\Words" />
+      <recent name="C:\Users\adir\Desktop\SummarEyez\Results\312330418\Sentences" />
       <recent name="C:\Users\matanshu\PycharmProjects\SummarEyez" />
     </key>
   </component>
@@ -220,16 +232,5 @@
     <MESSAGE value="fix coords" />
     <MESSAGE value="fix" />
     <option name="LAST_COMMIT_MESSAGE" value="fix" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/EyeTracking.py</url>
-          <line>261</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -262,7 +262,7 @@ class Create_text(tk.Tk):
         self.output = pd.DataFrame([(a, b[0], b[3], b[4], b[4], b[2]) for a, b in self.bbox_info.items()],
                                    columns=['index', 'sentence', 'fixation_order', 'samples_duration_in_fixations',
                                             'total_fixations', 'total_duration_samples_in_fixation'])
-        print(self.bbox_info)
+
         self.output['count_words'] = self.output['sentence'].apply(lambda x: len(re.findall(r'\w+', x)))
         self.output['normalized_sentence_by_count_words'] = self.output['total_duration_samples_in_fixation'] / \
                                                             self.output['count_words']
@@ -413,7 +413,7 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
     # except:
     #     pass
 
-    AP = pointGUI()
+    #AP = pointGUI()
     prevX = 1000
     prevY = 1000
     prevT = 0.0
@@ -477,8 +477,10 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
                         # print(y_abs)
                         experiment_screen.get_bbox(x_abs, y_fix)
 
-                        AP.clearCanvas()
-                        AP.draw(x_abs, y_fix)
+                        #AP.clearCanvas()
+                        #AP.draw(x_abs, y_fix)
+                        # AP.root.update()
+                        experiment_screen.update()
                         # except Exception as e:
                         # print(e)
 

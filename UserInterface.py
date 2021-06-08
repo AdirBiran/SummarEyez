@@ -1,5 +1,7 @@
 import tkinter as tk
 import time
+#import nltk
+#nltk.download('punkt')
 
 from nltk import sent_tokenize
 
@@ -7,8 +9,6 @@ from Controller import Controller
 from Settings import *
 from EyeTracking import start_eye_tracking
 
-#import nltk
-#nltk.download('punkt')
 
 # Styles
 TITLE_FONT_STYLE = ("David", 28, "bold")
@@ -386,12 +386,12 @@ class NewParticipantFrame(tk.Frame):
         self.department_var.set("Select")
 
         # Just for tests
-        self.id_var.set("123456789")
-        self.first_name_var.set("Demo")
-        self.last_name_var.set("Demo")
-        self.age_var.set("30")
-        self.gender_var.set("Male")
-        self.department_var.set("Software Engineering")
+        # self.id_var.set("123456789")
+        # self.first_name_var.set("Demo")
+        # self.last_name_var.set("Demo")
+        # self.age_var.set("30")
+        # self.gender_var.set("Male")
+        # self.department_var.set("Software Engineering")
 
         # Sizes
         pad_x, pad_y = 40, 20
@@ -509,7 +509,8 @@ class NewParticipantFrame(tk.Frame):
             global participant_id
             participant_id = id
             controller.add_new_participant(id, first_name, last_name, gender, department, age)
-            self.master.switch_frame(DemoExperimentFrame)
+            init_texts()
+            self.master.switch_frame(TextReadingInstructions)
 
 # Demo / Experiment Frame
 class DemoExperimentFrame(tk.Frame):
@@ -568,7 +569,7 @@ class TextReadingInstructions(tk.Frame):
 
         new_title(self, "Text Reading Instructions")
 
-        instructions = "In this step, you will have to read a short text.\n\nThis step has a minimum time of " + str(int(MIN_TEXT_READING_TIME/60)) + " minutes.\n\nBy the end of the time the Next button will appear on the bottom-left side."
+        instructions = "In this step, you will have to read a short text.\n\nThis step has a minimum time of " + str(int(MIN_TEXT_READING_TIME/60)) + " minutes.\n\nBy the end of the time the Next button will appear on the bottom-right side."
 
         tk.Label(self, text=instructions, bg=BACKGROUND_COLOR, font=TEXT_FONT).pack(pady=100)
         new_button(self, "Click here to continue", self.start_reading_text).pack()
@@ -832,7 +833,7 @@ class HighlightingFrame(tk.Frame):
     # Next button
     def next(self):
 
-        global timer_ranking, highlighted_sentences, highlighted_sentences_scores
+        global timer_ranking, highlighted_sentences, highlighted_sentences_scores, ranking_dict
         timer_ranking = round(time.time() - timer_ranking, 1)
         flag_continue = True
         buttons = [btn for btn in self.buttons_mapping]
@@ -865,6 +866,10 @@ class HighlightingFrame(tk.Frame):
 
 
         if flag_continue is True:
+
+            for i in range(1, 6):
+                ranking_dict[i] = "normal"
+
             self.master.switch_frame(QuestionsInstructions)
 
 

@@ -20,7 +20,7 @@ class pointGUI:
 
 
     def point(self,x,y):
-        return self.canvas.create_oval(x-10, y-10, x+10, y+10, outline="#2541f4",width=10)
+        return self.canvas.create_oval(x-10, y-10, x+10, y+10, outline="#2541f4",width=5)
 
 
 
@@ -29,7 +29,6 @@ class pointGUI:
         # y = (y*self.height)
         if x is not None and y is not None:
             self.point( x, y)
-            self.root.update()
         # self.root.mainloop()
 
     def clearCanvas(self):
