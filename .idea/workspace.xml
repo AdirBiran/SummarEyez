@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="503d7fff-e391-4021-a32d-8b1b1f882b24" name="Default Changelist" comment="fix">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Results/312330418/Sentences/312330418_21.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Results/312330418/Words/312330418_21.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/SummarEyez.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SummarEyez.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EyeTracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/EyeTracking.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/UserInterface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pointGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/pointGUI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +25,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Results/312330418/Words" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -210,8 +201,17 @@
       <option name="project" value="LOCAL" />
       <updated>1623060608826</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL‎00016" summary="fix">
+      <created>1623166050357</created>
+      <option name="number" value="LOCAL‎00016" />
+      <option name="presentableId" value="LOCAL‎00016" />
+      <updated>1623166050357</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

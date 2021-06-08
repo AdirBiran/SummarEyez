@@ -500,46 +500,5 @@ def eye_tracking(participant_id, text, current_text_id, current_text_title):
 
 
     s.close()
-
-
-                    # x = float(coords[3])
-                    # y = float(coords[5])
-                    # x_list.append(x)
-                    # y_list.append(y)
-                    # if timeThresh > 2:
-                    #
-                    #     # print(timeThresh, prevT)
-                    #     x = np.mean(x_list)
-                    #     y = np.mean(y_list)
-                    #     print("x size", len(x_list))
-                    #     print("y size", len(y_list))
-                    #
-                    #     # print("x is ",x)
-                    #     # print("ys is ",y)
-                    #     # x = float(coords[3])
-                    #     # y = float(coords[5])
-                    #     x_list = []
-                    #     y_list = []
-                        # print(x)
-                        # print(y)
-                        #     try:
-                        #         experiment_screen.get_bbox(x, y)
-                        #     except tk.TclError:
-                        #         break
-                            # AP.clearCanvas()
-                        # AP.draw(float(coords[3]), float(coords[5]))
-                        # print(float(coords[3]), float(coords[5]))
-                        # prevX = float(coords[3])
-                        # prevY = float(coords[5])
-    #                     prevT = float(coords[1])
-    #             except:
-    #                 pass
-    #
-    # s.close()
-    # return experiment_screen.read_time
-    # # except AttributeError:
-    # #
-    # #     print('AttributeError')
-    #     pass
-
-    # In[ ]:
+    print("Reading time:", experiment_screen.read_time)
+    return experiment_screen.read_time

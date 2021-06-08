@@ -32,7 +32,6 @@ class Controller:
 
         user_texts_indexes = [user_counter_fixed, user_counter_fixed + 20, user_counter_fixed + 40, user_counter_fixed + 60]
 
-        user_texts_indexes = [61, 61, 61, 61]
         texts = []
         for text_idx in user_texts_indexes:
             text_path = os.path.join(TEXTS_PATH, str(text_idx), str(text_idx) + ".json")
